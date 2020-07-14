@@ -1,0 +1,1 @@
+{"logins": [{"user": "superuser", "password": "superuser", "perms": 1, "money": 9997501.0}, {"user": "guest", "password": "guest", "perms": 0, "money": 0}, {"user": "pisich", "password": "trojandick42", "perms": 0, "money": 0}]}
