@@ -3,9 +3,9 @@ import random
 import time
 
 #"EQUIPO": [ATAQUE, DEFENSA, REPUTACION]
-with open("D:\Documentos\Experimentos\info.txt","r") as file:
+with open(r"path\to\info.txt","r") as file:
     stats = json.load(file)
-with open("D:\Documentos\Experimentos\logins.txt","r") as login_data:
+with open(r"path\to\logins.txt","r") as login_data:
     login_info = json.load(login_data)
 
 jornada = []
@@ -297,9 +297,9 @@ def partido(equipo1, equipo2):
     return scores
 
 def main():
-    with open("D:\Documentos\Experimentos\info.txt","r") as file:
+    with open("path\to\info.txt","r") as file:
         stats = json.load(file)
-    with open("D:\Documentos\Experimentos\logins.txt","r") as login_data:
+    with open("path\to\logins.txt","r") as login_data:
         login_info = json.load(login_data)
     if login():
         teams = team_selection(stats["equipos"])
@@ -317,7 +317,7 @@ def main():
 
 
 main()
-with open("D:\Documentos\Experimentos\info.txt","w") as file:
+with open("path\to\info.txt","w") as file:
     json.dump(stats, file)
-with open("D:\Documentos\Experimentos\logins.txt","w") as login_data:
+with open("path\to\logins.txt","w") as login_data:
     json.dump(login_info, login_data)
