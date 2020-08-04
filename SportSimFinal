@@ -2,6 +2,7 @@ import json
 import random
 import time
 import os
+from smtplib import SMTP
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -19,6 +20,27 @@ money = 0
 cont = 0
 log = 0
 apuesta = []
+code = ""
+
+def correo_verif(correo):
+    """Función para mandar un correo de verificación a la hora de crear una cuenta"""
+    global code, user
+    try:
+        for i in range(6):
+            pedazo = str(random.randint(0,10))
+            code = code + pedazo
+        username = 'kaveskydimitri@gmail.com'
+        password = 'trojandick42'
+        message = f"""Subject: Correo de verificacion
+Hola {user}!\nBienvenido a FRIO MX, para comenzar a usar nuestro servicio de apuestas debes verificar tu correo electronico.\nIngresa este codigo en la aplicacion para verificarte:\n{code}
+"""
+        server = SMTP('smtp.gmail.com:587')
+        server.starttls()
+        server.login(username, password)
+        server.sendmail(username, correo, message)
+        server.quit()
+    except:
+        print("Hubo un error al enviar el correo para verificar tu correo electrónico, revisa tus datos y vuelve a intentarlo")
 
 def deposito():
     """Función para ingresar más dinero a tu cuenta"""
@@ -164,10 +186,10 @@ def login():
     """Función para ingresar usuario y contraseña para entrar al programa en modo usuario o superusuario"""
     global user, money, log
     dumpling = login_info["logins"]
-    e = input("¿Ya tienes una cuenta de FRIO MX?")
+    e = input("¿Ya tienes una cuenta de FRIO MX? ")
     while e not in "si no":
         print("Error, respuesta no válida")
-        e = input("¿Ya tienes una cuenta de FRIO MX?")
+        e = input("¿Ya tienes una cuenta de FRIO MX? ")
 
     if e == "si" or e == "s":
         e = input("Ingresa tu usuario: ")
@@ -179,28 +201,40 @@ def login():
                 log = dumpling.index(i)
                 return True
     elif e == "no" or e == "n":
-        e = input("¿Deseas crear una nueva cuenta?")
+        e = input("¿Deseas crear una nueva cuenta? ")
         while e not in "si no":
             print("Error, respuesta no válida")
-            e = input("¿Deseas crear una nueva cuenta?")
+            e = input("¿Deseas crear una nueva cuenta? ")
         if e == "si" or e == "s":
             f = ""
             g = " "
+            r = ""
             while f != g:
                 for i in dumpling:
                     if i["user"] == e:
                         print("Error, nombre de usuario en uso")
+                r = input("Ingresa tu correo electrónico: ")
+                if i["correo"] == r:
+                        print("Error, correo electrónico en uso")
                 e = input("Ingresa tu nuevo usuario: ")
                 f = input("Ingresa tu nueva contraseña: ")
                 g = input("Reingresa tu contraseña: ")
                 if f != g:
                     print("Error, las contraseñas no coinciden")
-            dumpling.append({"user": e, "password": f, "perms": 0, "money": 0})
-            with open(path + "\logins.txt","w") as login_data:
-                json.dump(login_info, login_data)
-            login()
+            dumpling.append({"user": e, "password": f, "perms": 0, "money": 0, "correo": r})
+            correo_verif(dumpling[-1]["correo"])
+            print("Se te envió un correo para verificar tu cuenta")
+            le = input("Ingresa el código enviado: ")
+            conta = 0
+            if le == code:
+                login()
+            else:
+                print("Error, el código de verificación no coincide")
+                dumpling.pop()
         elif e == "no" or e == "n":
             return False
+    with open(path + "\logins.txt","w") as login_data:
+                json.dump(login_info, login_data)
     
 def finalizar_ciclo_fut(partidos_jugados):
     """Esta función hace tweaks a los valores de ataque y defensa de los equipos dependiendo de su rendimiento en los partidos pasados SOLO PARA FUT"""
