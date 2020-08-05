@@ -32,7 +32,8 @@ def correo_verif(correo):
         username = 'kaveskydimitri@gmail.com'
         password = 'trojandick42'
         message = f"""Subject: Correo de verificacion
-Hola {user}!\nBienvenido a FRIO MX, para comenzar a usar nuestro servicio de apuestas debes verificar tu correo electronico.\nIngresa este codigo en la aplicacion para verificarte:\n{code}
+Hola {user}!\nBienvenido a FRIO MX, para comenzar a usar nuestro servicio de apuestas debes verificar tu correo electronico.
+Ingresa este codigo en la aplicacion para verificarte:\n{code}
 """
         server = SMTP('smtp.gmail.com:587')
         server.starttls()
