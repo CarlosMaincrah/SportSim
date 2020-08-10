@@ -8,6 +8,11 @@ If they win their bet, depends on how high the reputation of the team was the us
 The more the reputation the team has, the less you will win and the less the reputation the team has, the more you will win
 when your bet wins. (Higher risk = Higher reward)
 
+
+There are two accounts for superusers and guests, guest accounts reset everytime you start the program and superuser accounts have unlimited money.
+These are only intended for debugging and testing.
+Use at your own risk.
+
 School project
 
 Coming soon: New sports
