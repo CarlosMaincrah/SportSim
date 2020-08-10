@@ -9,3 +9,5 @@ The more the reputation the team has, the less you will win and the less the rep
 when your bet wins. (Higher risk = Higher reward)
 
 School project
+
+Coming soon: New sports
