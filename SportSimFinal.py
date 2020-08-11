@@ -15,187 +15,186 @@ with open(path + r"\basq.txt", "r") as archivo:
 with open(path + "\logins.txt","r") as login_data:
     login_info = json.load(login_data)
 
-jornada = []
+sport_day = []
 user = ""
 money = 0
 cont = 0
 log = 0
-apuesta = []
+bets = []
 code = ""
 
-def correo_verif(correo):
-    """Función para mandar un correo de verificación a la hora de crear una cuenta"""
+def correo_verif(email):
+    """Function to send a verification email when creating an account"""
     global code, user
     try:
         for i in range(6):
-            pedazo = str(random.randint(0,10))
-            code = code + pedazo
-        username = ec.email
-        password = ec.password
-        message = f"""Subject: Correo de verificacion
-Hola {user}!\nBienvenido a FRIO MX, para comenzar a usar nuestro servicio de apuestas debes verificar tu correo electronico.
-Ingresa este codigo en la aplicacion para verificarte:\n{code}
-"""
+            piece_of_code = str(random.randint(0,10))
+            code = code + piece_of_code
+        message = f"""
+            Subject: Verification email
+            Hey {user}!\nWelcome to FRIO MX, to start using our betting service you must verify your email.
+            Enter this code in the application to verify yourself:\n{code}
+            """
         server = SMTP('smtp.gmail.com:587')
         server.starttls()
-        server.login(username, password)
-        server.sendmail(username, correo, message)
+        server.login(ec.email, ec.password)
+        server.sendmail(ec.email, email, message)
         server.quit()
     except:
-        print("Hubo un error al enviar el correo para verificar tu correo electrónico, revisa tus datos y vuelve a intentarlo")
+        print("There was an error when sending the verification email, check your details and try again")
 
 def deposito():
-    """Función para ingresar más dinero a tu cuenta"""
-    print(f"Actualmente tienes {money} de crédito, tienes opción de comprar 4 paquetes.\n1- 1000 créditos\n2- 5000 créditos\n3- 10000 créditos\n4- 50000 créditos")
-    e = input("¿Qué paquete deseas comprar? ")
+    """Function to add more money to your account"""
+    print(f"You currently have ${money} credit, you have the option to buy 4 packages.\n1- $1000 credit\n2- $5000 credit\n3- $10000 credit\n4- $50000 credit")
+    e = input("Which package do you want to buy? ")
     while e != "q":
         dumpling = login_info["logins"]
         dumpling = dumpling[log]
         if e == "1":
             dumpling["money"] += 1000
             time.sleep(2)
-            print("Transacción autorizada")
+            print("Authorized transaction")
             return True
         elif e == "2":
             dumpling["money"] += 5000
             time.sleep(2)
-            print("Transacción autorizada")
+            print("Authorized transaction")
             return True
         elif e == "3":
             dumpling["money"] += 10000
             time.sleep(2)
-            print("Transacción autorizada")
+            print("Authorized transaction")
             return True
         elif e == "4":
             dumpling["money"] += 50000
             time.sleep(2)
-            print("Transacción autorizada")
+            print("Authorized transaction")
             return True
 
 def results():
-    """Función que da resultados de los partidos y paga las apuestas ganadas"""
-    for i in jornada:
-        print(f"Partido #{i['numpartido']}:\n{i['team1']} vs {i['team2']}: {i['score1']}-{i['score2']}")
+    """Function that shows final results of the matches and pays the won bets"""
+    for i in sport_day:
+        print(f"Match #{i['numpartido']}:\n{i['team1']} vs {i['team2']}: {i['score1']}-{i['score2']}")
 
-    for i in apuesta:
-        print(f"Has apostado {i['monto']} por {i['equipo']} en el partido #{i['partido']}")
-        for r in jornada:
+    for i in bets:
+        print(f"You bet ${i['monto']} to {i['equipo']} in match #{i['partido']}")
+        for r in sport_day:
             if i["partido"] == r["numpartido"]:
                 if i["equipo"] == r["team1"]:
                     if r["score1"] > r["score2"]:
                         dif = ((abs(r["stats1"][2] - 100) + 10 )/100) + 1
-                        print(f"Has ganado tu apuesta, tu equipo ganó el partido #{r['numpartido']}")
+                        print(f"You won the bet, your team won match #{r['numpartido']}")
                         dumpling = login_info["logins"]
                         dumpling = dumpling[log]
                         dumpling["money"] += i["monto"]*dif
-                        print(f"Hemos añadido {i['monto']*dif} a tu cuenta!\n")
+                        print(f"We've added ${i['monto']*dif} to your account!\n")
                     elif r["team1"] < r["team2"]:
-                        print(f"Has perdido tu apuesta, tu equipo perdió el partido #{r['numpartido']}\n")
+                        print(f"You lost the bet, your team lost match #{r['numpartido']}\n")
                     elif r["team1"] == r["team2"]:
-                        print("Tu equipo ha empatado en el partido, se te devolverá tu apuesta\n")
+                        print(f"Your team has drawn in match #{r['numpartido']}, your bet will be returned\n")
                         dumpling = login_info["logins"]
                         dumpling = dumpling[log]
                         dumpling["money"] += i["monto"]
                 elif i["equipo"] == r["team2"]:
                     if r["score2"] > r["score1"]:
                         dif = ((abs(r["stats2"][2] - 100) + 10 )/100) + 1
-                        print(f"Has ganado tu apuesta, tu equipo ganó el partido #{r['numpartido']}")
+                        print(f"You won the bet, your team won match #{r['numpartido']}")
                         dumpling = login_info["logins"]
                         dumpling = dumpling[log]
                         dumpling["money"] += i["monto"]*dif
-                        print(f"Hemos añadido {i['monto']*dif} a tu cuenta!\n")
+                        print(f"We've added ${i['monto']*dif} to your account!\n")
                     elif r["score2"] < r["score1"]:
-                        print(f"Has perdido tu apuesta, tu equipo perdió el partido #{r['numpartido']}\n")
+                        print(f"You lost the bet, your team lost match #{r['numpartido']}\n")
                     elif r["team1"] == r["team2"]:
-                        print("Tu equipo ha empatado en el partido, se te devolverá tu apuesta\n")
+                        print(f"Your team has drawn in match #{r['numpartido']}, your bet will be returned\n")
                         dumpling = login_info["logins"]
                         dumpling = dumpling[log]
                         dumpling["money"] += i["monto"]
 
 def apostar(usuario):
-    """Función para ingresar apuestas a ciertos equipos"""
+    """Funtion to enter bets on certain matches"""
     global money
-    print(f"\n\nBienvenido {usuario}")
-    e = input("¿Deseas apostar en algún partido de la jornada? ")
-    while e not in "si no":
-        print("Error, respuesta inválida")
-        e = input("¿Deseas apostar en algún partido de la jornada? ")
-    if e == "si" or e == "s":
-        print(f"Tienes {money} de crédito para apostar")
-        f = str(input(f"¿En qué partido(s) deseas apostar?(Separar con ',' y sin espacios) "))
+    print(f"\n\nWelcome {usuario}")
+    e = input("Would you like to bet in any of today's matches? ")
+    while e not in "yes no":
+        print("Error, invalid answer")
+        e = input("Would you like to bet in any of today's matches? ")
+    if e == "yes" or e == "y":
+        print(f"You have ${money} available to bet")
+        f = str(input(f"In which match(es) you want to bet in? (Separate with ',' and without spaces) "))
         f = f.split(",")
         for i in f:
-            dumpling = jornada[int(i)-1]
-            print(f"Partido #{i}:\n{dumpling['team1']} vs {dumpling['team2']}")
-            print("(LOCAL vs VISITANTE)")
-            r = input("¿A cuál equipo vas a apostar? ")
-            if r == "VISITANTE" or r == "visitante" or r == "v":
-                g = int(input(f"¿Cuánto apostarás por {dumpling['team2']}? "))
+            dumpling = sport_day[int(i)-1]
+            print(f"Match #{i}:\n{dumpling['team1']} vs {dumpling['team2']}")
+            print("(LOCAL vs VISITING)")
+            r = input("Which team are you betting on? ")
+            if r == "VISITING" or r == "visiting" or r == "v":
+                g = int(input(f"How much are you betting for {dumpling['team2']}? "))
                 while g > money:
-                    print("No puedes apostar más dinero del que actualmente posees, intente de nuevo.")
-                    e = input("¿Deseas depositar más crédito a tu cuenta? ")
-                    while e not in "si no":
-                        print("Error, respuesta inválida")
-                        e = input("¿Deseas depositar más crédito a tu cuenta? ")
+                    print("You can't bet more money than you have, try a lower bet.")
+                    e = input("Would you like to add more credit to your account? ")
+                    while e not in "yes no":
+                        print("Error, invalid answer")
+                        e = input("Would you like to add more credit to your account? ")
                     
-                    if e == "si" or e == "s":
+                    if e == "yes" or e == "y":
                         deposito()
                         break
                     elif e == "no" or e == "n":
-                        print("Es imposible completar la apuesta\n")
-                    g = int(input(f"¿Cuánto apostarás por {dumpling['team2']}? "))
-                r = input(f"¿Estás seguro que deseas apostar {g} por {dumpling['team2']} en el partido #{i}? ")
-                if r == "si" or r == "s":
-                    print("Apuesta completada")
-                    apuesta.append({"equipo": dumpling['team2'], "monto": g, "partido": i})
+                        print("It's impossible to submit the bet\n")
+                    g = int(input(f"How much are you betting for {dumpling['team2']}? "))
+                r = input(f"Are you sure you want to bet ${g} for {dumpling['team2']} in match #{i}? ")
+                if r == "yes" or r == "y":
+                    print("Bet submitted")
+                    bets.append({"equipo": dumpling['team2'], "monto": g, "partido": i})
                     dumpling = login_info["logins"]
                     dumpling = dumpling[log]
                     dumpling["money"] -= g
                 else:
                     pass
             elif r == "LOCAL" or r == "local" or r == "l":
-                g = int(input(f"¿Cuánto apostarás por {dumpling['team1']}? "))
+                g = int(input(f"How much are you betting for {dumpling['team1']}? "))
                 while g > money:
-                    print("No puedes apostar más dinero del que actualmente posees, intente de nuevo.")
-                    e = input("¿Deseas depositar más crédito a tu cuenta? ")
-                    if e == "si" or e == "s":
+                    print("You can't bet more money than you have, try a lower bet.")
+                    e = input("Would you like to add more credit to your account? ")
+                    if e == "yes" or e == "y":
                         deposito()
                         break
                     else:
                         break
-                    g = int(input(f"¿Cuánto apostarás por {dumpling['team1']}? "))
-                r = input(f"¿Estás seguro que deseas apostar {g} por {dumpling['team1']} en el partido #{i}? ")
-                if r == "si" or r == "s":
-                    print("Apuesta completada")
-                    apuesta.append({"equipo": dumpling['team1'], "monto": g, "partido": i})
+                    g = int(input(f"How much are you betting for {dumpling['team1']}? "))
+                r = input(f"Are you sure you want to bet ${g} for {dumpling['team1']} in match #{i}? ")
+                if r == "yes" or r == "y":
+                    print("Bet submitted")
+                    bets.append({"equipo": dumpling['team1'], "monto": g, "partido": i})
                     dumpling = login_info["logins"]
                     dumpling = dumpling[log]
                     dumpling["money"] -= g
                 else:
                     pass
     elif e == "no" or e == "n":
-        f = input("¿Deseas ver los resultados de la jornada? ")
+        f = input("Would you like to see all the game results? ")
         while f not in "si no":
-            print("Error, respuesta inválida")
-            f = input("¿Deseas ver los resultados de la jornada? ")
-        if f == "si" or f == "s":
+            print("Error, invalid answer")
+            f = input("Would you like to see all the game results? ")
+        if f == "yes" or f == "y":
             return True
         elif f == "no" or f == "n":
             exit()
 
 
 def login():
-    """Función para ingresar usuario y contraseña para entrar al programa en modo usuario o superusuario"""
+    """Login with user and password or create a new account"""
     global user, money, log
     dumpling = login_info["logins"]
-    e = input("¿Ya tienes una cuenta de FRIO MX? ")
-    while e not in "si no":
-        print("Error, respuesta no válida")
-        e = input("¿Ya tienes una cuenta de FRIO MX? ")
+    e = input("Already have a FRIO MX account? ")
+    while e not in "yes no":
+        print("Error, invalid answer")
+        e = input("Already have a FRIO MX account? ")
 
-    if e == "si" or e == "s":
-        e = input("Ingresa tu usuario: ")
-        f = input("Ingresa tu contraseña: ")
+    if e == "yes" or e == "y":
+        e = input("Enter your user: ")
+        f = input("Enter your password: ")
         for i in dumpling:
             if i["user"] == e and i["password"] == f:
                 user = i["user"]
@@ -203,35 +202,36 @@ def login():
                 log = dumpling.index(i)
                 return True
     elif e == "no" or e == "n":
-        e = input("¿Deseas crear una nueva cuenta? ")
-        while e not in "si no":
-            print("Error, respuesta no válida")
-            e = input("¿Deseas crear una nueva cuenta? ")
-        if e == "si" or e == "s":
+        e = input("Would you like to create a new account? ")
+        while e not in "yes no":
+            print("Error, invalid answer")
+            e = input(""Would you like to create a new account? ")
+        if e == "yes" or e == "s":
             f = ""
             g = " "
             r = ""
             while f != g:
                 for i in dumpling:
                     if i["user"] == e:
-                        print("Error, nombre de usuario en uso")
-                r = input("Ingresa tu correo electrónico: ")
-                if i["correo"] == r:
-                        print("Error, correo electrónico en uso")
-                e = input("Ingresa tu nuevo usuario: ")
-                f = input("Ingresa tu nueva contraseña: ")
-                g = input("Reingresa tu contraseña: ")
+                        print("Error, username is already in use")
+                r = input("Enter your email: ")
+                for i in dumpling:
+                    if i["correo"] == r:
+                        print("Error, email already in use")
+                e = input("Enter your new user: ")
+                f = input("Enter your new password: ")
+                g = input("Repeat your password: ")
                 if f != g:
-                    print("Error, las contraseñas no coinciden")
+                    print("Error, passwords don't match")
             dumpling.append({"user": e, "password": f, "perms": 0, "money": 0, "correo": r})
             correo_verif(dumpling[-1]["correo"])
-            print("Se te envió un correo para verificar tu cuenta")
-            le = input("Ingresa el código enviado: ")
+            print("We sent you a verification email")
+            le = input("Enter the code you received: ")
             conta = 0
             if le == code:
                 login()
             else:
-                print("Error, el código de verificación no coincide")
+                print("Error, incorrect verification code, try again")
                 dumpling.pop()
         elif e == "no" or e == "n":
             return False
@@ -239,7 +239,7 @@ def login():
                 json.dump(login_info, login_data)
     
 def finalizar_ciclo_fut(partidos_jugados):
-    """Esta función hace tweaks a los valores de ataque y defensa de los equipos dependiendo de su rendimiento en los partidos pasados SOLO PARA FUT"""
+    """This function does tweaks in team stats depending on its performance in past matches (Only for football)"""
     dumpling = statsfut["equipos"]
     dumpling = dumpling[0]
     for i in partidos_jugados:
@@ -296,7 +296,7 @@ def finalizar_ciclo_fut(partidos_jugados):
         json.dump(statsfut, file)
 
 def finalizar_ciclo_basq(partidos_jugados):
-    """Esta función hace tweaks a los valores de ataque y defensa de los equipos dependiendo de su rendimiento en los partidos pasados SOLO PARA BASQ"""
+    """This function does tweaks in team stats depending on its performance in past matches (Only for basquetball)"""
     dumpling = statsbasq["equipos"]
     dumpling = dumpling[0]
     for i in partidos_jugados:
@@ -352,8 +352,8 @@ def finalizar_ciclo_basq(partidos_jugados):
     with open(path + r"\basq.txt","w") as file:
         json.dump(statsbasq, file)
 
-def canasta(team1, team2):
-    """Función para definir que equipo mete canasta o no"""
+def score_basq(team1, team2):
+    """Function to emulate whenever a team scores (Only for basquetball)"""
     prob1 = 0
     prob2 = 0
     if team1[0] > team2[1]:
@@ -388,8 +388,8 @@ def canasta(team1, team2):
     else:
         return 0, 0
 
-def gol(team1, team2):
-    """Función para definir que equipo mete gol o no"""
+def score_fut(team1, team2):
+    """Function to emulate whenever a team scores (Only for football)"""
     prob1 = 0
     prob2 = 0
     if team1[0] > team2[1]:
@@ -425,7 +425,7 @@ def gol(team1, team2):
         return 0, 0
 
 def team_selection(team_list):
-    """Se le pasa una lista con un diccionario con todos los equipos"""
+    """Function that creates random matches based on available teams"""
     team_dict = team_list[0]
     count = len(team_dict.keys())
     team_dictt = []
@@ -446,7 +446,7 @@ def team_selection(team_list):
     return selected_teams
 
 def partido_basq(equipo1, equipo2):
-    """Genera un score entre dos equipos dependiendo de los traits de cada uno SOLO PARA BASQ"""
+    """Emulates a match between two teams (Only for basquetball)"""
     global cont
     dumpling = statsbasq["equipos"]
     dumpling = dumpling[0]
@@ -456,7 +456,7 @@ def partido_basq(equipo1, equipo2):
     scoretotal2 = 0
     scores = []
     for i in range(random.randint(80, 91)):
-        score1, score2 = canasta(team1, team2)
+        score1, score2 = score_basq(team1, team2)
         scoretotal1 += score1
         scoretotal2 += score2
     cont += 1
@@ -472,12 +472,12 @@ def partido_basq(equipo1, equipo2):
             scoretotal1 += random.randint(20,41)
 
     scores.append({"team1": equipo1, "team2": equipo2, "score1": scoretotal1, "score2": scoretotal2, "stats1": team1, "stats2": team2})
-    print(f"Partido #{cont}:\n{equipo1}: {team1[2]} vs {equipo2}: {team2[2]}")
-    jornada.append({"team1": equipo1, "team2": equipo2, "score1": scoretotal1, "score2": scoretotal2, "stats1": team1, "stats2": team2, "numpartido": str(cont)})
+    print(f"Match #{cont}:\n{equipo1}: {team1[2]} vs {equipo2}: {team2[2]}")
+    sport_day.append({"team1": equipo1, "team2": equipo2, "score1": scoretotal1, "score2": scoretotal2, "stats1": team1, "stats2": team2, "numpartido": str(cont)})
     return scores
 
 def partido_fut(equipo1, equipo2):
-    """Genera un score entre dos equipos dependiendo de los traits de cada uno SOLO PARA FUT"""
+    """Emulates a match between two teams (Only for football)"""
     global cont
     dumpling = statsfut["equipos"]
     dumpling = dumpling[0]
@@ -487,13 +487,13 @@ def partido_fut(equipo1, equipo2):
     scoretotal2 = 0
     scores = []
     for i in range(random.randint(10,21)):
-        score1, score2 = gol(team1, team2)
+        score1, score2 = score_fut(team1, team2)
         scoretotal1 += score1
         scoretotal2 += score2
     cont += 1
     scores.append({"team1": equipo1, "team2": equipo2, "score1": scoretotal1, "score2": scoretotal2, "stats1": team1, "stats2": team2})
-    print(f"Partido #{cont}:\n{equipo1}: {team1[2]} vs {equipo2}: {team2[2]}")
-    jornada.append({"team1": equipo1, "team2": equipo2, "score1": scoretotal1, "score2": scoretotal2, "stats1": team1, "stats2": team2, "numpartido": str(cont)})
+    print(f"Match #{cont}:\n{equipo1}: {team1[2]} vs {equipo2}: {team2[2]}")
+    sport_day.append({"team1": equipo1, "team2": equipo2, "score1": scoretotal1, "score2": scoretotal2, "stats1": team1, "stats2": team2, "numpartido": str(cont)})
     return scores
 
 def main():
@@ -504,11 +504,11 @@ def main():
     with open(path + "\logins.txt","r") as login_data:
         login_info = json.load(login_data)
     if login():
-        e = input("¿Qué deporte deseas visualizar? ")
-        while e not in "futbol basquetbol":
-            print("Error, respuesta no válida")
-            e = input("¿Qué deporte deseas visualizar? ")
-        if e in "futbol":
+        e = input("Which sport would you like to see? ")
+        while e not in "football basquetball":
+            print("Error, invalid answer")
+            e = input("Which sport would you like to see? ")
+        if e in "football":
             teams = team_selection(statsfut["equipos"])
             for i in teams:
                 if teams.index(i) % 2 == 0:
@@ -520,7 +520,7 @@ def main():
             apostar(user)
             time.sleep(5)
             results()
-        elif e in "basquetbol":
+        elif e in "basquetball":
             teams = team_selection(statsbasq["equipos"])
             for i in teams:
                 if teams.index(i) % 2 == 0:
@@ -533,7 +533,7 @@ def main():
             time.sleep(5)
             results()
     else:
-        print("Acceso denegado")
+        print("Access denied")
 
 
 main()
