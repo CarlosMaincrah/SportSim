@@ -3,6 +3,7 @@ import random
 import time
 import os
 from smtplib import SMTP
+import email_credentials as ec
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -29,8 +30,8 @@ def correo_verif(correo):
         for i in range(6):
             pedazo = str(random.randint(0,10))
             code = code + pedazo
-        username = 'kaveskydimitri@gmail.com'
-        password = 'trojandick42'
+        username = ec.email
+        password = ec.password
         message = f"""Subject: Correo de verificacion
 Hola {user}!\nBienvenido a FRIO MX, para comenzar a usar nuestro servicio de apuestas debes verificar tu correo electronico.
 Ingresa este codigo en la aplicacion para verificarte:\n{code}
