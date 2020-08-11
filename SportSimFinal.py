@@ -6,7 +6,7 @@ from smtplib import SMTP
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-#"EQUIPO": [ATAQUE, DEFENSA, REPUTACION]
+#"EQUIPO": [ATACK, DEFENSE, REPUTATION]
 with open(path + r"\fut.txt","r") as file:
     statsfut = json.load(file)
 with open(path + r"\basq.txt", "r") as archivo:
