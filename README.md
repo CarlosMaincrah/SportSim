@@ -1,4 +1,5 @@
 ## SportSim
+## BRANCH FOCUSED ON IMPLEMENTING A FULLY FUNCTIONAL GUI 
 A sports simulator that depends on team's statistics to emulate scores.
 
 The user can create an account(always verifying his/her email account), select what sport they want to bet in, see the upcoming matches and select a specific
