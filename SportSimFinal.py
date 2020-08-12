@@ -562,14 +562,42 @@ def next_img():
         panel['image'] = img
         window.update()
 
+def gui_create_acc():
+    """Create a new account with GUI"""
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x310")
+    window.title("Create a new account")
+    email = StringVar()
+    username = StringVar()
+    password = StringVar()
+    sec_password = StringVar()
+    entry_email = Entry(window, textvariable=email, width= 30).place(x=40, y=100)
+    entry_username = Entry(window, textvariable=username, width= 30).place(x=40, y=200)
+    entry_password = Entry(window, textvariable=password, width= 30).place(x=300, y=100)
+    entry_sec_password = Entry(window, textvariable=sec_password, width= 30).place(x=300, y=200)
+    Label(window, text="Create a new FRIO MX account!", font=("Courier", 22)).place(x=21,y=0)
+    Label(window, text="Email:", font=("Courier", 18)).place(x=40, y=60)
+    Label(window, text="New username:", font=("Courier",18)).place(x=40, y=160)
+    Label(window, text="Password:", font=("Courier", 18)).place(x=300, y=60)
+    Label(window, text="Repeat password:", font=("Courier", 18)).place(x=300, y=160)
+    Button(window, text="Create account", font=("Courier", 8)).place(x= 208, y=250)
+
 def gui_login():
     """Login into your account with GUI"""
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x310")
+    window.title("Log in")
     username = StringVar()
     password = StringVar()
-    entry_username = Entry(window, textvariable=username).place(x=100, y=100)
-    entry_password = Entry(window, textvariable=password).place(x=120, y=150)
-    #LEFT HERE
+    entry_username = Entry(window, textvariable=username, width= 30).place(x=170, y=100)
+    entry_password = Entry(window, textvariable=password, width= 30).place(x=170, y=180)
+    Label(window, text=username).place(x=0, y=100)
+    Label(window, text=password).place(x=0, y=200)
+    Label(window, text="Log into your FRIO MX account", font=("Courier", 20)).place(x=38, y=0)
+    Label(window, text="Username:", font=("Courier", 18)).place(x=170, y=60)
+    Label(window, text="Password:", font=("Courier", 18)).place(x=170, y=140)
+    Button(window, text="Log in", font=("Courier", 10)).place(x=235, y=230)
+    
 
 def gui():
     """Principal graphic interface configuration"""
@@ -579,7 +607,7 @@ def gui():
     window.title("FRIO MX")
     window.resizable(0, 0)
     Button(window, text="Login", bg="#4ea9bf", width=13, command=gui_login).place(x=342, y=0)
-    Button(window, text="Create an account", bg="#50a82a").place(x=433, y=0)
+    Button(window, text="Create an account", bg="#50a82a", command=gui_create_acc).place(x=433, y=0)
     Label(window, text="Welcome to FRIO MX", font=("Courier", 32)).place(x=35, y=40)
     Button(text='>', command=next_img).place(x=515, y=50)
     next_img()
