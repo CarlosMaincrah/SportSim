@@ -15,6 +15,8 @@ with open(path + r"\basq.txt", "r") as archivo:
 with open(path + "\logins.txt","r") as login_data:
     login_info = json.load(login_data)
 
+debug = False #Set to True if debugging
+
 sport_day = []
 user = ""
 money = 0
@@ -43,7 +45,7 @@ def correo_verif(email):
     except:
         print("There was an error when sending the verification email, check your details and try again")
 
-def deposito():
+def deposit():
     """Function to add more money to your account"""
     print(f"You currently have ${money} credit, you have the option to buy 4 packages.\n1- $1000 credit\n2- $5000 credit\n3- $10000 credit\n4- $50000 credit")
     e = input("Which package do you want to buy? ")
@@ -138,7 +140,7 @@ def apostar(usuario):
                         e = input("Would you like to add more credit to your account? ")
                     
                     if e == "yes" or e == "y":
-                        deposito()
+                        deposit()
                         break
                     elif e == "no" or e == "n":
                         print("It's impossible to submit the bet\n")
@@ -158,7 +160,7 @@ def apostar(usuario):
                     print("You can't bet more money than you have, try a lower bet.")
                     e = input("Would you like to add more credit to your account? ")
                     if e == "yes" or e == "y":
-                        deposito()
+                        deposit()
                         break
                     else:
                         break
@@ -205,7 +207,7 @@ def login():
         e = input("Would you like to create a new account? ")
         while e not in "yes no":
             print("Error, invalid answer")
-            e = input(""Would you like to create a new account? ")
+            e = input("Would you like to create a new account? ")
         if e == "yes" or e == "s":
             f = ""
             g = " "
@@ -296,7 +298,7 @@ def finalizar_ciclo_fut(partidos_jugados):
         json.dump(statsfut, file)
 
 def finalizar_ciclo_basq(partidos_jugados):
-    """This function does tweaks in team stats depending on its performance in past matches (Only for basquetball)"""
+    """This function does tweaks in team stats depending on its performance in past matches (Only for basketball)"""
     dumpling = statsbasq["equipos"]
     dumpling = dumpling[0]
     for i in partidos_jugados:
@@ -353,7 +355,7 @@ def finalizar_ciclo_basq(partidos_jugados):
         json.dump(statsbasq, file)
 
 def score_basq(team1, team2):
-    """Function to emulate whenever a team scores (Only for basquetball)"""
+    """Function to emulate whenever a team scores (Only for basketball)"""
     prob1 = 0
     prob2 = 0
     if team1[0] > team2[1]:
@@ -446,7 +448,7 @@ def team_selection(team_list):
     return selected_teams
 
 def partido_basq(equipo1, equipo2):
-    """Emulates a match between two teams (Only for basquetball)"""
+    """Emulates a match between two teams (Only for basketball)"""
     global cont
     dumpling = statsbasq["equipos"]
     dumpling = dumpling[0]
@@ -505,7 +507,7 @@ def main():
         login_info = json.load(login_data)
     if login():
         e = input("Which sport would you like to see? ")
-        while e not in "football basquetball":
+        while e not in "football basketball":
             print("Error, invalid answer")
             e = input("Which sport would you like to see? ")
         if e in "football":
@@ -520,7 +522,7 @@ def main():
             apostar(user)
             time.sleep(5)
             results()
-        elif e in "basquetball":
+        elif e in "basketball":
             teams = team_selection(statsbasq["equipos"])
             for i in teams:
                 if teams.index(i) % 2 == 0:
@@ -535,8 +537,60 @@ def main():
     else:
         print("Access denied")
 
+#END OF BACK-END
+#START OF GUI
+import itertools
+from tkinter import *
+from PIL import ImageTk, Image
 
-main()
+images = ["mainpage1.jpg", "mainpage2.jpg", "mainpage3.jpg", "mainpage4.jpg"]
+images = itertools.cycle(images)
+window = ""
+
+def next_img():
+    """Iterate through the mainpage images"""
+    panel = Label(window,width= 540, height= 500)
+    panel.place(x=0, y= 130)
+    try:
+        img = next(images)
+    except StopIteration:
+        pass
+    else:
+        img = Image.open(path + r"\media\\" + img)
+        img = ImageTk.PhotoImage(img)
+        panel.img = img
+        panel['image'] = img
+        window.update()
+
+def gui_login():
+    """Login into your account with GUI"""
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    username = StringVar()
+    password = StringVar()
+    entry_username = Entry(window, textvariable=username).place(x=100, y=100)
+    entry_password = Entry(window, textvariable=password).place(x=120, y=150)
+    #LEFT HERE
+
+def gui():
+    """Principal graphic interface configuration"""
+    global window
+    window = Tk()
+    window.geometry("540x620")
+    window.title("FRIO MX")
+    window.resizable(0, 0)
+    Button(window, text="Login", bg="#4ea9bf", width=13, command=gui_login).place(x=342, y=0)
+    Button(window, text="Create an account", bg="#50a82a").place(x=433, y=0)
+    Label(window, text="Welcome to FRIO MX", font=("Courier", 32)).place(x=35, y=40)
+    Button(text='>', command=next_img).place(x=515, y=50)
+    next_img()
+    window.mainloop()
+
+if debug:
+    main()
+else:
+    gui()
+
+
 with open(path + r"\fut.txt","w") as file:
     json.dump(statsfut, file)
 with open(path + r"\basq.txt", "w") as archivo:
