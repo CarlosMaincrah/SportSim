@@ -14,6 +14,4 @@ There are two accounts for superusers and guests, guest accounts reset everytime
 These are only intended for debugging and testing.
 Use at your own risk.
 
-School project
-
-Coming soon: New sports
+At first, this was a school project, but I decided to continue developing it because I liked where this idea was going.
