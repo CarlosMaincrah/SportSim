@@ -542,10 +542,55 @@ def main():
 import itertools
 from tkinter import *
 from PIL import ImageTk, Image
+from time import *
 
 images = ["mainpage1.jpg", "mainpage2.jpg", "mainpage3.jpg", "mainpage4.jpg"]
 images = itertools.cycle(images)
 window = ""
+username = ""
+password = ""
+email = ""
+sec_password = ""
+verif = ""
+
+def verif_code():
+    """Checks the code sent via email to verify an account"""
+    global code, verif
+    if code == verif.get():
+        mainpage()
+    else:
+        Label(window, text="Incorrect code, terminating session").place(x=100, y=100)
+        sleep(2)
+        window.destroy()
+
+def gui_email_verif():
+    global code, email, username, verif
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    dumpling = login_info["logins"]
+    verif = StringVar()
+    try:
+        for i in range(6):
+            piece_of_code = str(random.randint(0,10))
+            code = code + piece_of_code
+        message = f"""
+            Hey {username.get()}!\nWelcome to FRIO MX, to start using our betting service you must verify your email.
+            Enter this code in the application to verify yourself:\n{code}
+            """
+        server = SMTP('smtp.gmail.com:587')
+        server.starttls()
+        server.login(ec.email, ec.password)
+        server.sendmail(ec.email, email.get(), message)
+        server.quit()
+    except:
+        Label(window, text="There was an error when sending the verification email, check your details and try again").place(x=0, y=0)
+        sleep(4)
+        dumpling.pop()
+        window.destroy()
+    else:
+        Label(window, text="We sent you a verification email,", font=("Courier", 18)).place(x=0, y=0)
+        Label(window, text="type in the code to verify your account:", font=("Courier", 18)).place(x=0, y=40)
+        Entry(window, width=30, textvariable=verif).place(x=100, y=100)
+        Button(window, text="Submit",command=verif_code).place(x=200, y=200)
 
 def next_img():
     """Iterate through the mainpage images"""
@@ -563,17 +608,56 @@ def next_img():
         window.update()
 
 def mainpage():
-    """mainpage"""
-    print("mainpage")
-    pass
+    """Mainpage of FRIO MX"""
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x620")
+    window.title("FRIO MX")
+    window.resizable(0, 0)
 
-def check_login(username, password):
-    """Checks if login credentials are valid -not working"""
-    global money, user, log
-    print(username, password)
+def check_create_acc():
+    """Double check if all the user details are valid and doesn't overlap other users information"""
+    global username, password, email, sec_password
     dumpling = login_info["logins"]
     for i in dumpling:
-            if i["user"] == username and i["password"] == password:
+        if username.get() == i["user"]:
+            label = Label(window, text="Username already in use")
+            label.place(x=190, y=220)
+            window.update()
+            sleep(2)
+            label.config(text="")
+            flag1 = False
+        else:
+            flag1 = True
+        if password.get() != sec_password.get():
+            label = Label(window, text="Passwords aren't matching")
+            label.place(x=190, y=220)
+            window.update()
+            sleep(2)
+            label.config(text="")
+            flag2 = False
+        else:
+            flag2 = True
+        if email == i["correo"]:
+            label = Label(window, text="Email already in use")
+            label.place(x=190, y=220)
+            window.update()
+            sleep(2)
+            label.config(text="")
+            flag3 = False
+        else:
+            flag3 = True
+    if flag1 and flag2 and flag3:
+        dumpling.append({"user": username.get(), "password": password.get(), "perms": 0, "money": 0, "correo": email.get()})
+    gui_email_verif()
+
+def check_login():
+    """Checks if login credentials are valid -not working"""
+    global money, user, log, username, password
+    user = username.get()
+    passw = password.get()
+    dumpling = login_info["logins"]
+    for i in dumpling:
+            if i["user"] == user and i["password"] == passw:
                 user = i["user"]
                 money = i["money"]
                 log = dumpling.index(i)
@@ -594,6 +678,7 @@ def reload_gui():
 
 def gui_create_acc():
     """Create a new account with GUI"""
+    global email, username, password, sec_password
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
     window.title("Create a new account")
@@ -610,22 +695,23 @@ def gui_create_acc():
     Label(window, text="New username:", font=("Courier",18)).place(x=40, y=160)
     Label(window, text="Password:", font=("Courier", 18)).place(x=300, y=60)
     Label(window, text="Repeat password:", font=("Courier", 18)).place(x=300, y=160)
-    Button(window, text="Create account", font=("Courier", 8)).place(x=208, y=250)
+    Button(window, text="Create account", font=("Courier", 8), command=check_create_acc).place(x=208, y=250)
     Button(window, text="Back", font=("Courier", 8), command=reload_gui).place(x=10, y=280)
 
 def gui_login():
     """Login into your account with GUI"""
+    global username, password
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
     window.title("Log in")
     username = StringVar()
     password = StringVar()
-    entry_username = Entry(window, textvariable=username, width= 30).place(x=170, y=100)
-    entry_password = Entry(window, textvariable=password, width= 30).place(x=170, y=180)
+    Entry(window, textvariable=username, width= 30).place(x=170, y=100)
+    Entry(window, textvariable=password, width= 30).place(x=170, y=180)
     Label(window, text="Log into your FRIO MX account", font=("Courier", 20)).place(x=38, y=0)
     Label(window, text="Username:", font=("Courier", 18)).place(x=170, y=60)
     Label(window, text="Password:", font=("Courier", 18)).place(x=170, y=140)
-    Button(window, text="Log in", font=("Courier", 10), command=check_login(username.get(), password.get())).place(x=235, y=230)
+    Button(window, text="Log in", font=("Courier", 10), command=check_login).place(x=235, y=230)
     Button(window, text="Back", font=("Courier", 8), command=reload_gui).place(x=10, y=280)
     #not working
 
