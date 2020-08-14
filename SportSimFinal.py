@@ -12,7 +12,7 @@ with open(path + r"\fut.txt","r") as file:
     statsfut = json.load(file)
 with open(path + r"\basq.txt", "r") as archivo:
     statsbasq = json.load(archivo)
-with open(path + "\logins.txt","r") as login_data:
+with open(path + r"\logins.txt","r") as login_data:
     login_info = json.load(login_data)
 
 debug = False #Set to True if debugging
@@ -537,7 +537,7 @@ def main():
     else:
         print("Access denied")
 
-#END OF BACK-END
+#END OF DEBUGGING
 #START OF GUI
 import itertools
 from tkinter import *
@@ -587,10 +587,10 @@ def gui_email_verif():
         dumpling.pop()
         window.destroy()
     else:
-        Label(window, text="We sent you a verification email,", font=("Courier", 18)).place(x=0, y=0)
-        Label(window, text="type in the code to verify your account:", font=("Courier", 18)).place(x=0, y=40)
-        Entry(window, width=30, textvariable=verif).place(x=100, y=100)
-        Button(window, text="Submit",command=verif_code).place(x=200, y=200)
+        Label(window, text="We sent you a verification email,", font=("Courier", 16)).place(x=0, y=0)
+        Label(window, text="type in the code to verify your account:", font=("Courier", 16)).place(x=0, y=35)
+        Entry(window, width=30, textvariable=verif).place(x=175, y=100)
+        Button(window, text="Submit",command=verif_code, font="Courier").place(x=220, y=200)
 
 def next_img():
     """Iterate through the mainpage images"""
@@ -618,6 +618,7 @@ def check_create_acc():
     """Double check if all the user details are valid and doesn't overlap other users information"""
     global username, password, email, sec_password
     dumpling = login_info["logins"]
+    flag1, flag2, flag3 = False, False, False
     for i in dumpling:
         if username.get() == i["user"]:
             label = Label(window, text="Username already in use")
@@ -637,7 +638,7 @@ def check_create_acc():
             flag2 = False
         else:
             flag2 = True
-        if email == i["correo"]:
+        if email.get() == i["correo"] or email.get() == "":
             label = Label(window, text="Email already in use")
             label.place(x=190, y=220)
             window.update()
@@ -648,7 +649,7 @@ def check_create_acc():
             flag3 = True
     if flag1 and flag2 and flag3:
         dumpling.append({"user": username.get(), "password": password.get(), "perms": 0, "money": 0, "correo": email.get()})
-    gui_email_verif()
+        gui_email_verif()
 
 def check_login():
     """Checks if login credentials are valid -not working"""
