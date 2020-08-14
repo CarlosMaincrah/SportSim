@@ -12,8 +12,10 @@ with open(path + r"\fut.txt","r") as file:
     statsfut = json.load(file)
 with open(path + r"\basq.txt", "r") as archivo:
     statsbasq = json.load(archivo)
-with open(path + "\logins.txt","r") as login_data:
+with open(path + r"\logins.txt","r") as login_data:
     login_info = json.load(login_data)
+
+debug = False #Set to True if debugging
 
 sport_day = []
 user = ""
@@ -43,7 +45,7 @@ def correo_verif(email):
     except:
         print("There was an error when sending the verification email, check your details and try again")
 
-def deposito():
+def deposit():
     """Function to add more money to your account"""
     print(f"You currently have ${money} credit, you have the option to buy 4 packages.\n1- $1000 credit\n2- $5000 credit\n3- $10000 credit\n4- $50000 credit")
     e = input("Which package do you want to buy? ")
@@ -138,7 +140,7 @@ def apostar(usuario):
                         e = input("Would you like to add more credit to your account? ")
                     
                     if e == "yes" or e == "y":
-                        deposito()
+                        deposit()
                         break
                     elif e == "no" or e == "n":
                         print("It's impossible to submit the bet\n")
@@ -158,7 +160,7 @@ def apostar(usuario):
                     print("You can't bet more money than you have, try a lower bet.")
                     e = input("Would you like to add more credit to your account? ")
                     if e == "yes" or e == "y":
-                        deposito()
+                        deposit()
                         break
                     else:
                         break
@@ -205,7 +207,7 @@ def login():
         e = input("Would you like to create a new account? ")
         while e not in "yes no":
             print("Error, invalid answer")
-            e = input(""Would you like to create a new account? ")
+            e = input("Would you like to create a new account? ")
         if e == "yes" or e == "s":
             f = ""
             g = " "
@@ -296,7 +298,7 @@ def finalizar_ciclo_fut(partidos_jugados):
         json.dump(statsfut, file)
 
 def finalizar_ciclo_basq(partidos_jugados):
-    """This function does tweaks in team stats depending on its performance in past matches (Only for basquetball)"""
+    """This function does tweaks in team stats depending on its performance in past matches (Only for basketball)"""
     dumpling = statsbasq["equipos"]
     dumpling = dumpling[0]
     for i in partidos_jugados:
@@ -353,7 +355,7 @@ def finalizar_ciclo_basq(partidos_jugados):
         json.dump(statsbasq, file)
 
 def score_basq(team1, team2):
-    """Function to emulate whenever a team scores (Only for basquetball)"""
+    """Function to emulate whenever a team scores (Only for basketball)"""
     prob1 = 0
     prob2 = 0
     if team1[0] > team2[1]:
@@ -446,7 +448,7 @@ def team_selection(team_list):
     return selected_teams
 
 def partido_basq(equipo1, equipo2):
-    """Emulates a match between two teams (Only for basquetball)"""
+    """Emulates a match between two teams (Only for basketball)"""
     global cont
     dumpling = statsbasq["equipos"]
     dumpling = dumpling[0]
@@ -505,7 +507,7 @@ def main():
         login_info = json.load(login_data)
     if login():
         e = input("Which sport would you like to see? ")
-        while e not in "football basquetball":
+        while e not in "football basketball":
             print("Error, invalid answer")
             e = input("Which sport would you like to see? ")
         if e in "football":
@@ -520,7 +522,7 @@ def main():
             apostar(user)
             time.sleep(5)
             results()
-        elif e in "basquetball":
+        elif e in "basketball":
             teams = team_selection(statsbasq["equipos"])
             for i in teams:
                 if teams.index(i) % 2 == 0:
@@ -535,8 +537,205 @@ def main():
     else:
         print("Access denied")
 
+#END OF DEBUGGING
+#START OF GUI
+import itertools
+from tkinter import *
+from PIL import ImageTk, Image
+from time import *
 
-main()
+images = ["mainpage1.jpg", "mainpage2.jpg", "mainpage3.jpg", "mainpage4.jpg"]
+images = itertools.cycle(images)
+window = ""
+username = ""
+password = ""
+email = ""
+sec_password = ""
+verif = ""
+
+def verif_code():
+    """Checks the code sent via email to verify an account"""
+    global code, verif
+    if code == verif.get():
+        mainpage()
+    else:
+        Label(window, text="Incorrect code, terminating session").place(x=100, y=100)
+        sleep(2)
+        window.destroy()
+
+def gui_email_verif():
+    global code, email, username, verif
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    dumpling = login_info["logins"]
+    verif = StringVar()
+    try:
+        for i in range(6):
+            piece_of_code = str(random.randint(0,10))
+            code = code + piece_of_code
+        message = f"""
+            Hey {username.get()}!\nWelcome to FRIO MX, to start using our betting service you must verify your email.
+            Enter this code in the application to verify yourself:\n{code}
+            """
+        server = SMTP('smtp.gmail.com:587')
+        server.starttls()
+        server.login(ec.email, ec.password)
+        server.sendmail(ec.email, email.get(), message)
+        server.quit()
+    except:
+        Label(window, text="There was an error when sending the verification email, check your details and try again").place(x=0, y=0)
+        sleep(4)
+        dumpling.pop()
+        window.destroy()
+    else:
+        Label(window, text="We sent you a verification email,", font=("Courier", 16)).place(x=0, y=0)
+        Label(window, text="type in the code to verify your account:", font=("Courier", 16)).place(x=0, y=35)
+        Entry(window, width=30, textvariable=verif).place(x=175, y=100)
+        Button(window, text="Submit",command=verif_code, font="Courier").place(x=220, y=200)
+
+def next_img():
+    """Iterate through the mainpage images"""
+    panel = Label(window,width= 540, height= 500)
+    panel.place(x=0, y= 130)
+    try:
+        img = next(images)
+    except StopIteration:
+        pass
+    else:
+        img = Image.open(path + r"\media\\" + img)
+        img = ImageTk.PhotoImage(img)
+        panel.img = img
+        panel['image'] = img
+        window.update()
+
+def mainpage():
+    """Mainpage of FRIO MX"""
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x620")
+    window.title("FRIO MX")
+    window.resizable(0, 0)
+
+def check_create_acc():
+    """Double check if all the user details are valid and doesn't overlap other users information"""
+    global username, password, email, sec_password
+    dumpling = login_info["logins"]
+    flag1, flag2, flag3 = False, False, False
+    for i in dumpling:
+        if username.get() == i["user"]:
+            label = Label(window, text="Username already in use")
+            label.place(x=190, y=220)
+            window.update()
+            sleep(2)
+            label.config(text="")
+            flag1 = False
+        else:
+            flag1 = True
+        if password.get() != sec_password.get():
+            label = Label(window, text="Passwords aren't matching")
+            label.place(x=190, y=220)
+            window.update()
+            sleep(2)
+            label.config(text="")
+            flag2 = False
+        else:
+            flag2 = True
+        if email.get() == i["correo"] or email.get() == "":
+            label = Label(window, text="Email already in use")
+            label.place(x=190, y=220)
+            window.update()
+            sleep(2)
+            label.config(text="")
+            flag3 = False
+        else:
+            flag3 = True
+    if flag1 and flag2 and flag3:
+        dumpling.append({"user": username.get(), "password": password.get(), "perms": 0, "money": 0, "correo": email.get()})
+        gui_email_verif()
+
+def check_login():
+    """Checks if login credentials are valid -not working"""
+    global money, user, log, username, password
+    user = username.get()
+    passw = password.get()
+    dumpling = login_info["logins"]
+    for i in dumpling:
+            if i["user"] == user and i["password"] == passw:
+                user = i["user"]
+                money = i["money"]
+                log = dumpling.index(i)
+                mainpage()
+    return False
+
+def reload_gui():
+    """Reloads the mainpage"""
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x620")
+    window.title("FRIO MX")
+    window.resizable(0, 0)
+    Button(window, text="Login", bg="#4ea9bf", width=13, command=gui_login).place(x=342, y=0)
+    Button(window, text="Create an account", bg="#50a82a", command=gui_create_acc).place(x=433, y=0)
+    Label(window, text="Welcome to FRIO MX", font=("Courier", 32)).place(x=35, y=40)
+    Button(text='>', command=next_img).place(x=515, y=50)
+    next_img()
+
+def gui_create_acc():
+    """Create a new account with GUI"""
+    global email, username, password, sec_password
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x310")
+    window.title("Create a new account")
+    email = StringVar()
+    username = StringVar()
+    password = StringVar()
+    sec_password = StringVar()
+    Entry(window, textvariable=email, width= 30).place(x=40, y=100)
+    Entry(window, textvariable=username, width= 30).place(x=40, y=200)
+    Entry(window, textvariable=password, width= 30).place(x=300, y=100)
+    Entry(window, textvariable=sec_password, width= 30).place(x=300, y=200)
+    Label(window, text="Create a new FRIO MX account!", font=("Courier", 22)).place(x=21,y=0)
+    Label(window, text="Email:", font=("Courier", 18)).place(x=40, y=60)
+    Label(window, text="New username:", font=("Courier",18)).place(x=40, y=160)
+    Label(window, text="Password:", font=("Courier", 18)).place(x=300, y=60)
+    Label(window, text="Repeat password:", font=("Courier", 18)).place(x=300, y=160)
+    Button(window, text="Create account", font=("Courier", 8), command=check_create_acc).place(x=208, y=250)
+    Button(window, text="Back", font=("Courier", 8), command=reload_gui).place(x=10, y=280)
+
+def gui_login():
+    """Login into your account with GUI"""
+    global username, password
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x310")
+    window.title("Log in")
+    username = StringVar()
+    password = StringVar()
+    Entry(window, textvariable=username, width= 30).place(x=170, y=100)
+    Entry(window, textvariable=password, width= 30).place(x=170, y=180)
+    Label(window, text="Log into your FRIO MX account", font=("Courier", 20)).place(x=38, y=0)
+    Label(window, text="Username:", font=("Courier", 18)).place(x=170, y=60)
+    Label(window, text="Password:", font=("Courier", 18)).place(x=170, y=140)
+    Button(window, text="Log in", font=("Courier", 10), command=check_login).place(x=235, y=230)
+    Button(window, text="Back", font=("Courier", 8), command=reload_gui).place(x=10, y=280)
+    #not working
+
+def gui():
+    """Principal graphic interface configuration"""
+    global window
+    window = Tk()
+    window.geometry("540x620")
+    window.title("FRIO MX")
+    window.resizable(0, 0)
+    Button(window, text="Login", bg="#4ea9bf", width=13, command=gui_login).place(x=342, y=0)
+    Button(window, text="Create an account", bg="#50a82a", command=gui_create_acc).place(x=433, y=0)
+    Label(window, text="Welcome to FRIO MX", font=("Courier", 32)).place(x=35, y=40)
+    Button(text='>', command=next_img).place(x=515, y=50)
+    next_img()
+    window.mainloop()
+
+if debug:
+    main()
+else:
+    gui()
+
+
 with open(path + r"\fut.txt","w") as file:
     json.dump(statsfut, file)
 with open(path + r"\basq.txt", "w") as archivo:
