@@ -552,6 +552,12 @@ password = ""
 email = ""
 sec_password = ""
 verif = ""
+mainpage = False
+#For mainpage ->
+soccer = team_selection(statsfut["equipos"])
+basket = team_selection(statsbasq["equipos"])
+games_played = partido_fut(soccer[0], soccer[1])
+games_played2 = partido_basq(basket[0], basket[1])
 
 def verif_code():
     """Checks the code sent via email to verify an account"""
@@ -594,22 +600,53 @@ def gui_email_verif():
 
 def next_img():
     """Iterate through the mainpage images"""
-    panel = Label(window,width= 540, height= 500)
-    panel.place(x=0, y= 130)
-    try:
-        img = next(images)
-    except StopIteration:
-        pass
+    global mainpage, soccer, basket, games_playes, games_played2
+    if mainpage == True:
+        panel = Label(window,width= 540, height= 500)
+        panel.place(x=0, y= 130)
+        try:
+            img = next(images)
+        except StopIteration:
+            pass
+        else:
+            img = Image.open(path + r"\media\\" + img)
+            img = ImageTk.PhotoImage(img)
+            panel.img = img
+            panel['image'] = img
+            window.update()
+            Label(window, text="Select the sport you want to bet in", font=("Courier", 18)).place(x=0, y=390, height=50, width=540)
+            Button(window, text="Football (Soccer)").place(x=0, y=440, height=60, width=270)
+            Button(window, text="Basketball").place(x=0, y=500, height=60, width=270)
+            Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
+            Canvas(window).place(x=270, y=440, height=180, width=270)
+            dumpling = games_played[0]
+            Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=440)
+            Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=280, y=475)
+            Label(window, text="VS", font=("Courier", 10)).place(x=300, y=457)
+            Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 20)).place(x=430, y=452)
+            dumpling = games_played2[0]
+            Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=500)
+            Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=280, y=535)
+            Label(window, text="VS", font=("Courier", 10)).place(x=300, y=517)
+            Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 20)).place(x=410, y=512)
     else:
-        img = Image.open(path + r"\media\\" + img)
-        img = ImageTk.PhotoImage(img)
-        panel.img = img
-        panel['image'] = img
-        window.update()
+        panel = Label(window,width= 540, height= 500)
+        panel.place(x=0, y= 130)
+        try:
+            img = next(images)
+        except StopIteration:
+            pass
+        else:
+            img = Image.open(path + r"\media\\" + img)
+            img = ImageTk.PhotoImage(img)
+            panel.img = img
+            panel['image'] = img
+            window.update()
 
 def mainpage():
     """Mainpage of FRIO MX"""
-    global money, username
+    global money, username, mainpage, soccer, basket, games_played, games_played2
+    mainpage = True
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x620")
     window.title("FRIO MX")
@@ -621,9 +658,22 @@ def mainpage():
     Label(window, text=f"Your balance is ${money}", font=("Courier", 8)).place(x=365, y=0)
     Button(text='>', command=next_img).place(x=505, y=90)
     next_img()
-    Label(window, text="Select the sport you want to bet in").place(x=0, y=400, height=50, width=540)
+    Label(window, text="Select the sport you want to bet in", font=("Courier", 18)).place(x=0, y=390, height=50, width=540)
     Button(window, text="Football (Soccer)").place(x=0, y=440, height=60, width=270)
-    Button(window, text="Basketball").place(x=270, y=440, height=60, width=270)
+    Button(window, text="Basketball").place(x=0, y=500, height=60, width=270)
+    Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
+    Canvas(window).place(x=270, y=440, height=180, width=270)
+    dumpling = games_played[0]
+    Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=440)
+    Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=280, y=475)
+    Label(window, text="VS", font=("Courier", 10)).place(x=300, y=457)
+    Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 20)).place(x=430, y=452)
+    dumpling = games_played2[0]
+    Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=500)
+    Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=280, y=535)
+    Label(window, text="VS", font=("Courier", 10)).place(x=300, y=517)
+    Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 20)).place(x=410, y=512)
+
 
 def check_create_acc():
     """Double check if all the user details are valid and doesn't overlap other users information"""
