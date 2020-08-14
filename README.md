@@ -15,4 +15,5 @@ Use at your own risk.
 
 At first this was a school project, but then I decided to continue developing it because I liked where this idea was going.
 
-Coming soon: New sports, GUI
+Coming soon: New sports
+Work in progress: GUI
