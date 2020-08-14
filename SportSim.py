@@ -609,10 +609,21 @@ def next_img():
 
 def mainpage():
     """Mainpage of FRIO MX"""
+    global money, username
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x620")
     window.title("FRIO MX")
     window.resizable(0, 0)
+    Label(window, text="Welcome", font=("Courier", 20)).place(x=30, y=0)
+    Label(window, text=f"{username.get()}", font=("Courier", 20)).place(x=160, y=0)
+    Label(window, text="to", font=("Courier", 20)).place(x=50, y=75)
+    Label(window, text="FRIO MX", font=("Courier", 60)).place(x=110, y=35)
+    Label(window, text=f"Your balance is ${money}", font=("Courier", 8)).place(x=365, y=0)
+    Button(text='>', command=next_img).place(x=505, y=90)
+    next_img()
+    Label(window, text="Select the sport you want to bet in").place(x=0, y=400, height=50, width=540)
+    Button(window, text="Football (Soccer)").place(x=0, y=440, height=60, width=270)
+    Button(window, text="Basketball").place(x=270, y=440, height=60, width=270)
 
 def check_create_acc():
     """Double check if all the user details are valid and doesn't overlap other users information"""
@@ -714,7 +725,6 @@ def gui_login():
     Label(window, text="Password:", font=("Courier", 18)).place(x=170, y=140)
     Button(window, text="Log in", font=("Courier", 10), command=check_login).place(x=235, y=230)
     Button(window, text="Back", font=("Courier", 8), command=reload_gui).place(x=10, y=280)
-    #not working
 
 def gui():
     """Principal graphic interface configuration"""
