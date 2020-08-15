@@ -18,3 +18,6 @@ At first this was a school project, but then I decided to continue developing it
 Coming soon: New sports
 
 Work in progress: GUI
+
+## Contributions
+Feel free to make a PR or to open an issue/feature request
