@@ -3,7 +3,7 @@ import random
 import time
 import os
 from smtplib import SMTP
-import email_credentials as ec
+import src.email_credentials as ec
 
 path = os.path.dirname(os.path.abspath(__file__))
 
