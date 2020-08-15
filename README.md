@@ -1,5 +1,5 @@
-## SportSim
-A sports simulator that depends on team's statistics to emulate scores.
+## FRIO MX
+A sports betting simulator that depends on teams stats to emulate scores.
 
 The user can create an account (always verifying his/her email account), select what sport they want to bet in, see the upcoming matches and select a specific
 match they want to bet in. The user will now bet on one team or the other, they select how much they will bet and confirm
