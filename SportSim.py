@@ -8,11 +8,11 @@ import email_credentials as ec
 path = os.path.dirname(os.path.abspath(__file__))
 
 #"EQUIPO": [ATACK, DEFENSE, REPUTATION]
-with open(path + r"\fut.txt","r") as file:
+with open(path + r"\src\fut.json","r") as file:
     statsfut = json.load(file)
-with open(path + r"\basq.txt", "r") as archivo:
+with open(path + r"\src\basq.json", "r") as archivo:
     statsbasq = json.load(archivo)
-with open(path + r"\logins.txt","r") as login_data:
+with open(path + r"\src\logins.json","r") as login_data:
     login_info = json.load(login_data)
 
 debug = False #Set to True if debugging
@@ -237,7 +237,7 @@ def login():
                 dumpling.pop()
         elif e == "no" or e == "n":
             return False
-    with open(path + "\logins.txt","w") as login_data:
+    with open(path + r"\src\logins.json","w") as login_data:
                 json.dump(login_info, login_data)
     
 def finalizar_ciclo_fut(partidos_jugados):
@@ -294,7 +294,7 @@ def finalizar_ciclo_fut(partidos_jugados):
                 r = i.index(f)
                 i[r] = 0
     
-    with open(path + r"\fut.txt","w") as file:
+    with open(path + r"\src\fut.json","w") as file:
         json.dump(statsfut, file)
 
 def finalizar_ciclo_basq(partidos_jugados):
@@ -351,7 +351,7 @@ def finalizar_ciclo_basq(partidos_jugados):
                 r = i.index(f)
                 i[r] = 0
     
-    with open(path + r"\basq.txt","w") as file:
+    with open(path + r"\src\basq.json","w") as file:
         json.dump(statsbasq, file)
 
 def score_basq(team1, team2):
@@ -499,11 +499,11 @@ def partido_fut(equipo1, equipo2):
     return scores
 
 def main():
-    with open(path + r"\fut.txt","r") as file:
+    with open(path + r"\src\fut.json","r") as file:
         statsfut = json.load(file)
-    with open(path + r"\basq.txt", "r") as archivo:
+    with open(path + r"\src\basq.json", "r") as archivo:
         statsbasq = json.load(archivo)
-    with open(path + "\logins.txt","r") as login_data:
+    with open(path + r"\src\logins.json","r") as login_data:
         login_info = json.load(login_data)
     if login():
         e = input("Which sport would you like to see? ")
@@ -796,9 +796,9 @@ else:
     gui()
 
 
-with open(path + r"\fut.txt","w") as file:
+with open(path + r"\src\fut.json","w") as file:
     json.dump(statsfut, file)
-with open(path + r"\basq.txt", "w") as archivo:
+with open(path + r"\src\basq.json", "w") as archivo:
     json.dump(statsbasq, archivo)
-with open(path + "\logins.txt","w") as login_data:
+with open(path + r"\src\logins.json","w") as login_data:
     json.dump(login_info, login_data)
