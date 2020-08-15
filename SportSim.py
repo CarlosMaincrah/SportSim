@@ -559,6 +559,12 @@ basket = team_selection(statsbasq["equipos"])
 games_played = partido_fut(soccer[0], soccer[1])
 games_played2 = partido_basq(basket[0], basket[1])
 
+def about_page():
+    """About FRIO MX page, where the user will find how to use FRIO MX software"""
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.title("About FRIO MX")
+    #Work in progress
+
 def fut_page():
     """Mainpage for betting in football matches"""
     global soccer
@@ -655,6 +661,7 @@ def next_img():
             Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 16)).place(x=340, y=515)
             Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=498)
             Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=400, y=537)
+            Button(window, text="About FRIO MX", command=about_page).place(x=445, y=360)
     else:
         panel = Label(window,width= 540, height= 500)
         panel.place(x=0, y= 130)
@@ -667,6 +674,7 @@ def next_img():
             img = ImageTk.PhotoImage(img)
             panel.img = img
             panel['image'] = img
+            Button(window, text="About FRIO MX", command=about_page).place(x=445, y=590)
             window.update()
 
 def mainpage():
@@ -697,8 +705,7 @@ def mainpage():
     Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 16)).place(x=340, y=515)
     Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=498)
     Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=400, y=537)
-
-
+    Button(window, text="About FRIO MX", command=about_page).place(x=445, y=360)
 
 def check_create_acc():
     """Double check if all the user details are valid and doesn't overlap other users information"""
