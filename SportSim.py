@@ -572,6 +572,16 @@ def about_page():
     else:
         Button(window, text="Back", command=reload_gui).place(x=490, y=590)
 
+def fut_bet():
+    """Page where the user will enter their bet details for a specific match"""
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.title("Bet in")
+
+def bask_bet():
+    """Page where the user will enter their bet details for a specific match"""
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.title("Bet in")
+
 def bask_page():
     """Mainpage for betting in basketball matches"""
     global basket
@@ -593,14 +603,14 @@ def bask_page():
             Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100+conta)
             Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135+conta)
             Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117+conta)
-            Button(window, text="Bet in this match").place(x=420, y=110+conta)
+            Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=110+conta)
             cont += 1
             conta += 100
         else:
             Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=0, y=100+conta)
             Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=135+conta)
             Label(window, text="VS", font=("Courier", 10)).place(x=20, y=117+conta)
-            Button(window, text="Bet in this match").place(x=130, y=110+conta)
+            Button(window, text="Bet in this match", command=bask_bet).place(x=130, y=110+conta)
             cont += 1
 
 def fut_page():
@@ -624,14 +634,14 @@ def fut_page():
             Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100+conta)
             Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135+conta)
             Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117+conta)
-            Button(window, text="Bet in this match").place(x=420, y=110+conta)
+            Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=110+conta)
             cont += 1
             conta += 100
         else:
             Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=0, y=100+conta)
             Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=135+conta)
             Label(window, text="VS", font=("Courier", 10)).place(x=20, y=117+conta)
-            Button(window, text="Bet in this match").place(x=130, y=110+conta)
+            Button(window, text="Bet in this match", command=fut_bet).place(x=130, y=110+conta)
             cont += 1
 
 def verif_code():
