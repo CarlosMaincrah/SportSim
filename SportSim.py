@@ -565,13 +565,14 @@ def about_page():
     window.title("About FRIO MX")
     with open(path + r"\src\about.txt") as file:
         message = file.read()
-    Label(window, text=message).pack()
-    #Work in progress
+    Label(window, text=message, font=("Courier", 13)).place(x=20, y=0)
+    Button(window, text="Back", command=reload_gui).place(x=490, y=590)
 
 def fut_page():
     """Mainpage for betting in football matches"""
     global soccer
     cont = 1
+    conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     fut_matches = []
     for i in soccer:
@@ -584,16 +585,17 @@ def fut_page():
 
     for i in fut_matches:
         if cont % 2 == 0:
-            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100)
-            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135)
-            Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117)
-            Button(window, text="Bet in this match").place(x=110, y=110)
+            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100+conta)
+            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135+conta)
+            Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117+conta)
+            Button(window, text="Bet in this match").place(x=350, y=110+conta)
             cont += 1
+            conta += 100
         else:
-            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=0, y=100*cont)
-            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=135*cont)
-            Label(window, text="VS", font=("Courier", 10)).place(x=20, y=117*cont)
-            Button(window, text="Bet in this match").place(x=130, y=110)
+            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=0, y=100+conta)
+            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=135+conta)
+            Label(window, text="VS", font=("Courier", 10)).place(x=20, y=117+conta)
+            Button(window, text="Bet in this match").place(x=130, y=110+conta)
             cont += 1
 
 def verif_code():
@@ -615,7 +617,8 @@ def gui_email_verif():
         for i in range(6):
             piece_of_code = str(random.randint(0,10))
             code = code + piece_of_code
-        message = f"""
+        message = f"""Subject: Verification code
+
             Hey {username.get()}!\nWelcome to FRIO MX, to start using our betting service you must verify your email.
             Enter this code in the application to verify yourself:\n{code}
             """
