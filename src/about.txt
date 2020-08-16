@@ -1,9 +1,9 @@
 FRIO MX is a sports betting simulator that depends on teams stats to emulate scores.
 
 
-You can create an account, select what sport you want to bet in, see the upcoming
-matches and select a specific match you want to bet in. You will now bet on one
-team or the other, select how much you will bet and confirm the transaction.
+You can create an account, deposit money in your balance, select what sport you want to bet in,
+see the upcoming emulated matches and select a specific match you want to bet in. You will now bet on
+one team or the other, select how much you will bet and confirm the transaction.
 The scores will be now prompted to you, showing you if you won or lost your bet(s).
 If you win their bet, depends on how high the reputation of the team was you will get
 your bet multiplied by. The better the reputation that team has, the less you are risking,
