@@ -572,6 +572,37 @@ def about_page():
     else:
         Button(window, text="Back", command=reload_gui).place(x=490, y=590)
 
+def bask_page():
+    """Mainpage for betting in basketball matches"""
+    global basket
+    cont = 1
+    conta = 0
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    bask_matches = []
+    for i in basket:
+        if basket.index(i) % 2 == 0:
+            ind1 = basket.index(i)
+            ind2 = int(basket.index(i))+1
+
+            bask_matches.append(partido_basq(basket[ind1], basket[ind2])[0])
+            #finalizar_ciclo_basq(partidos_jugados)
+    Label(window, text="Bet in basketball matches!", font=("Courier", 24)).place(x=0, y=0)
+    Button(window, text="Back", command=mainpage).place(x=500, y=590)
+    for i in bask_matches:
+        if cont % 2 == 0:
+            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100+conta)
+            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135+conta)
+            Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117+conta)
+            Button(window, text="Bet in this match").place(x=420, y=110+conta)
+            cont += 1
+            conta += 100
+        else:
+            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=0, y=100+conta)
+            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=135+conta)
+            Label(window, text="VS", font=("Courier", 10)).place(x=20, y=117+conta)
+            Button(window, text="Bet in this match").place(x=130, y=110+conta)
+            cont += 1
+
 def fut_page():
     """Mainpage for betting in football matches"""
     global soccer
@@ -661,7 +692,7 @@ def next_img():
             window.update()
             Label(window, text="Select the sport you want to bet in", font=("Courier", 18)).place(x=0, y=390, height=50, width=540)
             Button(window, text="Football (Soccer)", command=fut_page).place(x=0, y=440, height=60, width=270)
-            Button(window, text="Basketball").place(x=0, y=500, height=60, width=270)
+            Button(window, text="Basketball", command=bask_page).place(x=0, y=500, height=60, width=270)
             Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
             Canvas(window).place(x=270, y=440, height=180, width=270)
             dumpling = games_played[0]
@@ -705,7 +736,7 @@ def mainpage():
     next_img()
     Label(window, text="Select the sport you want to bet in", font=("Courier", 18)).place(x=0, y=390, height=50, width=540)
     Button(window, text="Football (Soccer)", command=fut_page).place(x=0, y=440, height=60, width=270)
-    Button(window, text="Basketball").place(x=0, y=500, height=60, width=270)
+    Button(window, text="Basketball", command=bask_page).place(x=0, y=500, height=60, width=270)
     Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
     Canvas(window).place(x=270, y=440, height=180, width=270)
     dumpling = games_played[0]
