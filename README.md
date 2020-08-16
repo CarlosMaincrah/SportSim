@@ -14,7 +14,20 @@ These are only intended for debugging and testing.
 Use at your own risk.
 
 At first this was a school project, but then I decided to continue developing it because I liked where this idea was going.
+## Installation
 
+```bash
+# Clone the repo
+$ git clone https://github.com/pisich/frio-mx
+
+# Change the working directory to frio-mx
+$ cd frio-mx
+
+# Install python3 and python3-pip if they are not installed
+
+# Install the requirements
+$ python3 -m pip install -r requirements.txt
+```
 Coming soon: New sports
 
 Work in progress: GUI
