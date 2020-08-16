@@ -1,5 +1,16 @@
-A sports betting simulator that depends on teams stats to emulate scores.
+FRIO MX is a sports betting simulator that depends on teams stats to emulate scores.
 
-You can create an account, select what sport you want to bet in, see the upcoming matches and select a specific match you want to bet in. You will now bet on one team or the other, select how much you will bet and confirm the transaction. The scores will be now prompted to you, showing you if you won or lost your bet(s). If you win their bet, depends on how high the reputation of the team was you will get your bet multiplied by. The more the reputation the team has, the less you will win and the less the reputation the team has, the more you will win when your bet wins. (Higher risk = Higher reward)
 
-There are two accounts for superusers and guests, guest accounts reset everytime you start the program and superuser accounts have unlimited money. These are only intended for debugging and testing. Use at your own risk.
+You can create an account, select what sport you want to bet in, see the upcoming
+matches and select a specific match you want to bet in. You will now bet on one
+team or the other, select how much you will bet and confirm the transaction.
+The scores will be now prompted to you, showing you if you won or lost your bet(s).
+If you win their bet, depends on how high the reputation of the team was you will get
+your bet multiplied by. The better the reputation that team has, the less you are risking,
+the lower the reputation that team has, the more you are risking.
+(Higher risk = Higher reward)
+
+
+There are two accounts for superusers and guests, guest accounts reset everytime you 
+start the program and superuser accounts have unlimited money. These are only 
+intended for debugging and testing. Use at your own risk.
