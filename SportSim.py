@@ -563,6 +563,9 @@ def about_page():
     """About FRIO MX page, where the user will find how to use FRIO MX software"""
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.title("About FRIO MX")
+    with open(path + r"\src\about.txt") as file:
+        message = file.read()
+    Label(window, text=message).pack()
     #Work in progress
 
 def fut_page():
