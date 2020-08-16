@@ -434,7 +434,7 @@ def team_selection(team_list):
     for i in team_dict.keys():
         team_dictt.append(i)
     selected_teams = []
-    for f in range(count*60//100):
+    for f in range(count*80//100):
         selection = random.randint(0,count-1)
         selected_teams.append(team_dictt[selection])
     for i in selected_teams:
@@ -552,7 +552,7 @@ password = ""
 email = ""
 sec_password = ""
 verif = ""
-mainpage = False
+logged = False
 #For mainpage ->
 soccer = team_selection(statsfut["equipos"])
 basket = team_selection(statsbasq["equipos"])
@@ -561,12 +561,16 @@ games_played2 = partido_basq(basket[0], basket[1])
 
 def about_page():
     """About FRIO MX page, where the user will find how to use FRIO MX software"""
+    global logged
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.title("About FRIO MX")
     with open(path + r"\src\about.txt") as file:
         message = file.read()
     Label(window, text=message, font=("Courier", 13)).place(x=20, y=0)
-    Button(window, text="Back", command=reload_gui).place(x=490, y=590)
+    if logged == True:
+        Button(window, text="Back", command=mainpage).place(x=490, y=590)
+    else:
+        Button(window, text="Back", command=reload_gui).place(x=490, y=590)
 
 def fut_page():
     """Mainpage for betting in football matches"""
@@ -582,13 +586,14 @@ def fut_page():
 
             fut_matches.append(partido_fut(soccer[ind1], soccer[ind2])[0])
             #finalizar_ciclo_fut(partidos_jugados)
-
+    Label(window, text="Bet in soccer matches!", font=("Courier", 30)).place(x=0, y=0)
+    Button(window, text="Back", command=mainpage).place(x=500, y=590)
     for i in fut_matches:
         if cont % 2 == 0:
             Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100+conta)
             Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135+conta)
             Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117+conta)
-            Button(window, text="Bet in this match").place(x=350, y=110+conta)
+            Button(window, text="Bet in this match").place(x=420, y=110+conta)
             cont += 1
             conta += 100
         else:
@@ -640,8 +645,8 @@ def gui_email_verif():
 
 def next_img():
     """Iterate through the mainpage images"""
-    global mainpage, soccer, basket, games_playes, games_played2
-    if mainpage == True:
+    global logged, soccer, basket, games_playes, games_played2
+    if logged == True:
         panel = Label(window,width= 540, height= 500)
         panel.place(x=0, y= 130)
         try:
@@ -685,8 +690,8 @@ def next_img():
 
 def mainpage():
     """Mainpage of FRIO MX"""
-    global money, username, mainpage, soccer, basket, games_played, games_played2
-    mainpage = True
+    global money, username, logged, soccer, basket, games_played, games_played2
+    logged = True
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x620")
     window.title("FRIO MX")
