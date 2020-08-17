@@ -1,19 +1,9 @@
 ## FRIO MX
 A sports betting simulator that depends on teams stats to emulate scores.
 
-The user can create an account (always verifying his/her email account), select what sport they want to bet in, see the upcoming matches and select a specific
-match they want to bet in. The user will now bet on one team or the other, they select how much they will bet and confirm
-the transaction. The scores will be now prompted to the user, telling them if they won or lost their bet(s).
-If they win their bet, depends on how high the reputation of the team was the user will get their bet multiplied by.
-The more the reputation the team has, the less you will win and the less the reputation the team has, the more you will win
-when your bet wins. (Higher risk = Higher reward)
+It has a fully functional betting system, where the user has to create an account and deposit some money to start betting. From now on the process is simple, the user selects the matches they want to bet in before the match "happens" and when the match ends the final score and the result of their bet will be shown to the user. If they won their bet, depends on how high the reputation of the team was the user will get their initial bet multiplied by. The higher the reputation of the team, the less the user will profit from that bet and the lower the reputation of the team, the more the user will profit. (Higher risk = Higher reward)
 
-
-There are two accounts for superusers and guests, guest accounts reset everytime you start the program and superuser accounts have unlimited money.
-These are only intended for debugging and testing.
-Use at your own risk.
-
-At first this was a school project, but then I decided to continue developing it because I liked where this idea was going.
+At first, this was a school project, but then I decided to continue developing it because I liked where this idea was going. Because of the evident behavior similarities with the real matches, this application even makes the user think that these matches between teams are real. We have tweaked every single aspect of the application to make it mimic real matches where the team that has better statistics has a bigger chance of winning but, that is not always the case. As in real life, we tweaked the program to have that unpredictability that real life matches have.
 ## Installation
 
 ```bash
