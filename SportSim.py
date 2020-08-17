@@ -590,11 +590,29 @@ def fut_next():
         Label(window, text="Bet in soccer matches!", font=("Courier", 30)).place(x=0, y=0)
         Label(window, text=f"{i['team1']}", font=("Courier", 24)).place(x=0, y=100)
         Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=155)
-        Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117)
+        Label(window, text="VS", font=("Courier", 10)).place(x=0, y=117)
         Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=210)
         Button(window, text="Next", command=fut_next).place(x=420, y=110)
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
+def bask_next():
+    """Function to show the next match in basketball matches"""
+    global conta, bask_matches
+    try:
+        conta += 1
+        i = bask_matches[conta]
+    except IndexError:
+        pass
+    else:
+        Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+        window.title(f"Bet in {i['team1']} vs {i['team2']}")
+        Label(window, text="Bet in basketball matches!", font=("Courier", 28)).place(x=0, y=0)
+        Label(window, text=f"{i['team1']}", font=("Courier", 24)).place(x=0, y=100)
+        Label(window, text=f"{i['team2']}", font=("Courier", 24)).place(x=0, y=155)
+        Label(window, text="VS", font=("Courier", 24)).place(x=0, y=117)
+        Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=210)
+        Button(window, text="Next", command=bask_next).place(x=420, y=110)
+        Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
 def fut_bet():
     """Page where the user will enter their bet details for a specific match"""
@@ -608,9 +626,9 @@ def bask_bet():
 
 def bask_page():
     """Mainpage for betting in basketball matches"""
-    global basket
-    cont = 1
+    global basket, conta, bask_matches
     conta = 0
+    window.geometry("540x310")
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     bask_matches = []
     for i in basket:
@@ -620,27 +638,21 @@ def bask_page():
 
             bask_matches.append(partido_basq(basket[ind1], basket[ind2])[0])
             #finalizar_ciclo_basq(partidos_jugados)
-    Label(window, text="Bet in basketball matches!", font=("Courier", 24)).place(x=0, y=0)
-    Button(window, text="Back", command=mainpage).place(x=500, y=590)
-    for i in bask_matches:
-        if cont % 2 == 0:
-            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100+conta)
-            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135+conta)
-            Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117+conta)
-            Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=110+conta)
-            cont += 1
-            conta += 100
-        else:
-            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=0, y=100+conta)
-            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=135+conta)
-            Label(window, text="VS", font=("Courier", 10)).place(x=20, y=117+conta)
-            Button(window, text="Bet in this match", command=bask_bet).place(x=130, y=110+conta)
-            cont += 1
+    Label(window, text="Bet in basketball matches!", font=("Courier", 28)).place(x=0, y=0)
+    i = bask_matches[0]
+    window.title(f"Bet in {i['team1']} vs {i['team2']}")
+    Label(window, text=f"{i['team1']}", font=("Courier", 24)).place(x=0, y=100)
+    Label(window, text=f"{i['team2']}", font=("Courier", 24)).place(x=0, y=135)
+    Label(window, text="VS", font=("Courier", 24)).place(x=0, y=117)
+    Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=210)
+    Button(window, text="Next", command=bask_next).place(x=420, y=110)
+    Button(window, text="Back", command=mainpage).place(x=0, y=285)
+
 
 def fut_page():
     """Mainpage for betting in football matches"""
     global soccer, conta, fut_matches
-    conta = 1
+    conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
     fut_matches = []
@@ -654,9 +666,10 @@ def fut_page():
     Label(window, text="Bet in soccer matches!", font=("Courier", 30)).place(x=0, y=0)
     i = fut_matches[0]
     window.title(f"Bet in {i['team1']} vs {i['team2']}")
-    Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100)
-    Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135)
-    Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117)
+    Label(window, text=f"{i['team1']}", font=("Courier", 24)).place(x=0, y=135)
+    Label(window, text=f"{i['team2']}", font=("Courier", 24)).place(x=0, y=165)
+    Label(window, text="VS", font=("Courier", 24)).place(x=0, y=117)
+    Button(window, text="Bet in this match", command=fut_bet).place(x=0, y=210)
     Button(window, text="Next", command=fut_next).place(x=420, y=110)
     Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
