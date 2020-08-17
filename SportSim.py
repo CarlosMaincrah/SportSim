@@ -558,6 +558,10 @@ soccer = team_selection(statsfut["equipos"])
 basket = team_selection(statsbasq["equipos"])
 games_played = partido_fut(soccer[0], soccer[1])
 games_played2 = partido_basq(basket[0], basket[1])
+#For bets ->
+conta = 0
+fut_maches = []
+bask_matches = []
 
 def about_page():
     """About FRIO MX page, where the user will find how to use FRIO MX software"""
@@ -571,6 +575,26 @@ def about_page():
         Button(window, text="Back", command=mainpage).place(x=490, y=590)
     else:
         Button(window, text="Back", command=reload_gui).place(x=490, y=590)
+
+def fut_next():
+    """Funtion to show the next match in soccer matches"""
+    global conta, fut_matches
+    try:
+        conta += 1
+        i = fut_matches[conta]
+    except IndexError:
+        pass
+    else:
+        Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+        window.title(f"Bet in {i['team1']} vs {i['team2']}")
+        Label(window, text="Bet in soccer matches!", font=("Courier", 30)).place(x=0, y=0)
+        Label(window, text=f"{i['team1']}", font=("Courier", 24)).place(x=0, y=100)
+        Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=155)
+        Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117)
+        Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=210)
+        Button(window, text="Next", command=fut_next).place(x=420, y=110)
+        Button(window, text="Back", command=mainpage).place(x=0, y=285)
+
 
 def fut_bet():
     """Page where the user will enter their bet details for a specific match"""
@@ -615,10 +639,10 @@ def bask_page():
 
 def fut_page():
     """Mainpage for betting in football matches"""
-    global soccer
-    cont = 1
-    conta = 0
+    global soccer, conta, fut_matches
+    conta = 1
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x310")
     fut_matches = []
     for i in soccer:
         if soccer.index(i) % 2 == 0:
@@ -628,21 +652,13 @@ def fut_page():
             fut_matches.append(partido_fut(soccer[ind1], soccer[ind2])[0])
             #finalizar_ciclo_fut(partidos_jugados)
     Label(window, text="Bet in soccer matches!", font=("Courier", 30)).place(x=0, y=0)
-    Button(window, text="Back", command=mainpage).place(x=500, y=590)
-    for i in fut_matches:
-        if cont % 2 == 0:
-            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100+conta)
-            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135+conta)
-            Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117+conta)
-            Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=110+conta)
-            cont += 1
-            conta += 100
-        else:
-            Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=0, y=100+conta)
-            Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=0, y=135+conta)
-            Label(window, text="VS", font=("Courier", 10)).place(x=20, y=117+conta)
-            Button(window, text="Bet in this match", command=fut_bet).place(x=130, y=110+conta)
-            cont += 1
+    i = fut_matches[0]
+    window.title(f"Bet in {i['team1']} vs {i['team2']}")
+    Label(window, text=f"{i['team1']}", font=("Courier", 10)).place(x=280, y=100)
+    Label(window, text=f"{i['team2']}", font=("Courier", 10)).place(x=280, y=135)
+    Label(window, text="VS", font=("Courier", 10)).place(x=300, y=117)
+    Button(window, text="Next", command=fut_next).place(x=420, y=110)
+    Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
 def verif_code():
     """Checks the code sent via email to verify an account"""
