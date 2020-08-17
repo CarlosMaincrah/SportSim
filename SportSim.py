@@ -644,11 +644,13 @@ def bask_next():
 
 def fut_bet():
     """Page where the user will enter their bet details for a specific match"""
+    global conta
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.title("Bet in")
 
 def bask_bet():
     """Page where the user will enter their bet details for a specific match"""
+    global conta
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.title("Bet in")
 
