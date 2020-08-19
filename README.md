@@ -23,4 +23,4 @@ Coming soon: New sports
 Work in progress: GUI
 
 ## Contributions
-Feel free to make a PR or to open an issue/feature request
+Feel free to make a PR or to open an issue/feature request.
