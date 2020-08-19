@@ -23,4 +23,4 @@ Coming soon: New sports
 Work in progress: GUI
 
 ## Contributions
-Feel free to make a PR or to open an issue/feature request.
+Note that this program is in early development, if you would like to see a feature added, feel free to submit an issue or a pull request.
