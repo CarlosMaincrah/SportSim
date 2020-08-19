@@ -644,15 +644,43 @@ def bask_next():
 
 def fut_bet():
     """Page where the user will enter their bet details for a specific match"""
-    global conta
+    global conta, fut_matches
+    dumpling = fut_matches[conta]
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
-    window.title("Bet in")
+    window.title(f"Bet in {dumpling['team1']} VS {dumpling['team2']}")
+    Label(window, text="Which soccer team will you bet on?", font=("Courier", 18)).place(x=20, y=0)
+    Button(window, text=f"{dumpling['team1']}", font=("Courier", 12)).place(x=80, y=100)
+    Label(window, text="VS", font=("Courier", 12)).place(x=260, y=100)
+    Button(window, text=f"{dumpling['team2']}", font=("Courier", 12)).place(x=340, y=100)
+    Label(window, text=f"Team reputation: ({dumpling['stats1'][2]})", font=("Courier", 12)).place(x=20, y=140)
+    Label(window, text=f"Team reputation: ({dumpling['stats2'][2]})", font=("Courier", 12)).place(x=310, y=140)
+    Button(window, text="Back", command=fut_page).place(x=0, y= 285)
+    if dumpling['stats1'][2] >= dumpling['stats2'][2]:
+        Label(window, text="Higher chance of winning!", font=("Courier", 12)).place(x=20, y=160)
+        Label(window, text="More profitable!", font=("Courier", 12)).place(x=310, y=160)
+    else:
+        Label(window, text="Higher chance of winning!", font=("Courier", 12)).place(x=310, y=160)
+        Label(window, text="More profitable!", font=("Courier", 12)).place(x=20, y=160)
 
 def bask_bet():
     """Page where the user will enter their bet details for a specific match"""
-    global conta
+    global conta, bask_matches
+    dumpling = bask_matches[conta]
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
-    window.title("Bet in")
+    window.title(f"Bet in {dumpling['team1']} VS {dumpling['team2']}")
+    Label(window, text="Which basketball team will you bet on?", font=("Courier", 18)).place(x=0, y=0)
+    Button(window, text=f"{dumpling['team1']}", font=("Courier", 12)).place(x=80, y=100)
+    Label(window, text="VS", font=("Courier", 12)).place(x=260, y=100)
+    Button(window, text=f"{dumpling['team2']}", font=("Courier", 12)).place(x=340, y=100)
+    Label(window, text=f"Team reputation: ({dumpling['stats1'][2]})", font=("Courier", 12)).place(x=20, y=140)
+    Label(window, text=f"Team reputation: ({dumpling['stats2'][2]})", font=("Courier", 12)).place(x=310, y=140)
+    Button(window, text="Back", command=bask_page).place(x=0, y= 285)
+    if dumpling['stats1'][2] >= dumpling['stats2'][2]:
+        Label(window, text="Higher chance of winning!", font=("Courier", 12)).place(x=20, y=160)
+        Label(window, text="More profitable!", font=("Courier", 12)).place(x=310, y=160)
+    else:
+        Label(window, text="Higher chance of winning!", font=("Courier", 12)).place(x=310, y=160)
+        Label(window, text="More profitable!", font=("Courier", 12)).place(x=20, y=160)
 
 def bask_page():
     """Mainpage for betting in basketball matches"""
