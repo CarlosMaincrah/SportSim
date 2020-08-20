@@ -560,7 +560,8 @@ games_played = partido_fut(soccer[0], soccer[1])
 games_played2 = partido_basq(basket[0], basket[1])
 #For bets ->
 conta = 0
-fut_maches = []
+money_bet = ""
+fut_matches = []
 bask_matches = []
 
 def about_page():
@@ -642,19 +643,46 @@ def bask_next():
         Button(window, text="Next", command=bask_next).place(x=420, y=110)
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
+def fut_local_bet():
+    """Complete the user bet details for soccer local teams"""
+    global conta, fut_matches, money, money_bet
+    money_bet = StringVar()
+    Canvas(window, width=1000, height=1000).place(x=0, y=0)
+    window.title(f"Complete bet details for {fut_matches[conta]['team1']}")
+    Button(window, text="Back", command=fut_bet).place(x=0, y= 285)
+    Label(window, text=f"You can bet up to {money} for {fut_matches[conta]['team1']}", font=("Courier", 15)).place(x=0, y=0)
+    Label(window, text="All bets are non-refundable", font=("Courier", 7)).place(x=390, y=289)
+    Entry(window, textvariable=money_bet).place(x=200, y=150)
+    Label(window, text=f"Currently betting for {fut_matches[conta]['team1']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
+    Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get())})).place(x=210, y=170)
+
+def fut_visitor_bet():
+    """Complete the user bet details for soccer visitor teams"""
+    global conta, fut_matches, money, money_bet
+    money_bet = StringVar()
+    Canvas(window, width=1000, height=1000).place(x=0, y=0)
+    window.title(f"Complete bet details for {fut_matches[conta]['team2']}")
+    Button(window, text="Back", command=fut_bet).place(x=0, y= 285)
+    Label(window, text=f"You can bet up to {money} for {fut_matches[conta]['team2']}", font=("Courier", 15)).place(x=0, y=0)
+    Label(window, text="All bets are non-refundable", font=("Courier", 7)).place(x=390, y=289)
+    Entry(window, textvariable=money_bet).place(x=200, y=150)
+    Label(window, text=f"Currently betting for {fut_matches[conta]['team2']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
+    Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get())})).place(x=210, y=170)
+
 def fut_bet():
     """Page where the user will enter their bet details for a specific match"""
-    global conta, fut_matches
+    global conta, fut_matches, money
     dumpling = fut_matches[conta]
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.title(f"Bet in {dumpling['team1']} VS {dumpling['team2']}")
     Label(window, text="Which soccer team will you bet on?", font=("Courier", 18)).place(x=20, y=0)
-    Button(window, text=f"{dumpling['team1']}", font=("Courier", 12)).place(x=80, y=100)
+    Button(window, text=f"{dumpling['team1']}", font=("Courier", 12), command=fut_local_bet).place(x=80, y=100)
     Label(window, text="VS", font=("Courier", 12)).place(x=260, y=100)
-    Button(window, text=f"{dumpling['team2']}", font=("Courier", 12)).place(x=340, y=100)
+    Button(window, text=f"{dumpling['team2']}", font=("Courier", 12), command=fut_visitor_bet).place(x=340, y=100)
     Label(window, text=f"Team reputation: ({dumpling['stats1'][2]})", font=("Courier", 12)).place(x=20, y=140)
     Label(window, text=f"Team reputation: ({dumpling['stats2'][2]})", font=("Courier", 12)).place(x=310, y=140)
     Button(window, text="Back", command=fut_page).place(x=0, y= 285)
+    Label(window, text=f"Your balance is ${money}").place(x=390, y=285)
     if dumpling['stats1'][2] >= dumpling['stats2'][2]:
         Label(window, text="Higher chance of winning!", font=("Courier", 12)).place(x=20, y=160)
         Label(window, text="More profitable!", font=("Courier", 12)).place(x=310, y=160)
@@ -664,7 +692,7 @@ def fut_bet():
 
 def bask_bet():
     """Page where the user will enter their bet details for a specific match"""
-    global conta, bask_matches
+    global conta, bask_matches, money
     dumpling = bask_matches[conta]
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.title(f"Bet in {dumpling['team1']} VS {dumpling['team2']}")
@@ -675,6 +703,7 @@ def bask_bet():
     Label(window, text=f"Team reputation: ({dumpling['stats1'][2]})", font=("Courier", 12)).place(x=20, y=140)
     Label(window, text=f"Team reputation: ({dumpling['stats2'][2]})", font=("Courier", 12)).place(x=310, y=140)
     Button(window, text="Back", command=bask_page).place(x=0, y= 285)
+    Label(window, text=f"Your balance is ${money}").place(x=390, y=285)
     if dumpling['stats1'][2] >= dumpling['stats2'][2]:
         Label(window, text="Higher chance of winning!", font=("Courier", 12)).place(x=20, y=160)
         Label(window, text="More profitable!", font=("Courier", 12)).place(x=310, y=160)
@@ -693,8 +722,11 @@ def bask_page():
         if basket.index(i) % 2 == 0:
             ind1 = basket.index(i)
             ind2 = int(basket.index(i))+1
-            if basket[ind1] == basket[ind2]:
-                basket.remove(basket[ind1])
+            try:
+                if basket[ind1] == basket[ind2]:
+                    basket.remove(basket[ind1])
+            except IndexError:
+                pass
             bask_matches.append(partido_basq(basket[ind1], basket[ind2])[0])
             #finalizar_ciclo_fut(partidos_jugados)
     Label(window, text="Bet in basketball matches!", font=("Courier", 25)).place(x=0, y=0)
@@ -722,8 +754,11 @@ def fut_page():
         if soccer.index(i) % 2 == 0:
             ind1 = soccer.index(i)
             ind2 = int(soccer.index(i))+1
-            if soccer[ind1] == soccer[ind2]:
-                soccer.remove(soccer[ind1])
+            try:
+                if soccer[ind1] == soccer[ind2]:
+                    soccer.remove(soccer[ind1])
+            except IndexError:
+                pass
             fut_matches.append(partido_fut(soccer[ind1], soccer[ind2])[0])
             #finalizar_ciclo_fut(partidos_jugados)
     Label(window, text="Bet in soccer matches!", font=("Courier", 30)).place(x=0, y=0)
@@ -801,15 +836,15 @@ def next_img():
             Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
             Canvas(window).place(x=270, y=440, height=180, width=270)
             dumpling = games_played[0]
-            Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=438)
-            Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=465)
-            Label(window, text="VS", font=("Courier", 10)).place(x=390, y=465)
-            Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=465)
+            Label(window, text="VS", font=("Courier", 10)).place(x=360, y=465)
+            Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=435)
+            Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=450)
+            Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=468)
             dumpling = games_played2[0]
-            Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=498)
-            Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=525)
-            Label(window, text="VS", font=("Courier", 10)).place(x=390, y=525)
-            Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=525)
+            Label(window, text="VS", font=("Courier", 10)).place(x=360, y=525)
+            Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=495)
+            Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=510)
+            Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=528)
             Button(window, text="About FRIO MX", command=about_page).place(x=445, y=360)
     else:
         panel = Label(window,width= 540, height= 500)
@@ -847,15 +882,15 @@ def mainpage():
     Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
     Canvas(window).place(x=270, y=440, height=180, width=270)
     dumpling = games_played[0]
-    Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=438)
-    Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=465)
-    Label(window, text="VS", font=("Courier", 10)).place(x=390, y=465)
-    Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=465)
+    Label(window, text="VS", font=("Courier", 10)).place(x=360, y=465)
+    Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=435)
+    Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=450)
+    Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=468)
     dumpling = games_played2[0]
-    Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=498)
-    Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=525)
-    Label(window, text="VS", font=("Courier", 10)).place(x=390, y=525)
-    Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=525)
+    Label(window, text="VS", font=("Courier", 10)).place(x=360, y=525)
+    Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=495)
+    Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=510)
+    Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=528)
     Button(window, text="About FRIO MX", command=about_page).place(x=445, y=360)
 
 def check_create_acc():
