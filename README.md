@@ -19,9 +19,6 @@ $ cd frio-mx
 # Install the requirements
 $ python3 -m pip install -r requirements.txt
 ```
-Coming soon: New sports
-
-Work in progress: GUI
 
 ## Contributions
 Note that this program is in early development, if you would like to see a feature added, feel free to submit an issue or a pull request.
