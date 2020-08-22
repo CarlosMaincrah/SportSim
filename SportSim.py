@@ -654,7 +654,7 @@ def fut_local_bet():
     Label(window, text="All bets are non-refundable", font=("Courier", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {fut_matches[conta]['team1']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get())})).place(x=210, y=170)
+    Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team1"]})).place(x=210, y=170)
 
 def fut_visitor_bet():
     """Complete the user bet details for soccer visitor teams"""
@@ -667,7 +667,7 @@ def fut_visitor_bet():
     Label(window, text="All bets are non-refundable", font=("Courier", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {fut_matches[conta]['team2']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get())})).place(x=210, y=170)
+    Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"]})).place(x=210, y=170)
 
 def bask_local_bet():
     """Complete the user bet details for basketball local teams"""
@@ -680,7 +680,7 @@ def bask_local_bet():
     Label(window, text="All bets are non-refundable", font=("Courier", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {bask_matches[conta]['team1']}\nin match {bask_matches[conta]['team1']} ({bask_matches[conta]['stats1'][2]}) VS {bask_matches[conta]['team1']} ({bask_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command= lambda: bets.append({"full": bask_matches[conta], "monto": int(money_bet.get())})).place(x=210, y=170)
+    Button(window, text="Submit my bet", command= lambda: bets.append({"full": bask_matches[conta], "monto": int(money_bet.get()), "team": bask_matches[conta]["team1"]})).place(x=210, y=170)
 
 def bask_visitor_bet():
     """Complete the user bet details for basketball visitor teams"""
@@ -693,7 +693,7 @@ def bask_visitor_bet():
     Label(window, text="All bets are non-refundable", font=("Courier", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {bask_matches[conta]['team2']}\nin match {bask_matches[conta]['team1']} ({bask_matches[conta]['stats1'][2]}) VS {bask_matches[conta]['team1']} ({bask_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command= lambda: bets.append({"full": bask_matches[conta], "monto": int(money_bet.get())})).place(x=210, y=170)
+    Button(window, text="Submit my bet", command= lambda: bets.append({"full": bask_matches[conta], "monto": int(money_bet.get()), "team": bask_matches[conta]["team2"]})).place(x=210, y=170)
 
 def fut_bet():
     """Page where the user will enter their bet details for a specific match"""
