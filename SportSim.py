@@ -577,6 +577,10 @@ def about_page():
     else:
         Button(window, text="Back", command=reload_gui).place(x=490, y=590)
 
+def fin_mainpage():
+    """Variation of mainpage, that now shows all the match results"""
+    pass
+
 def fut_next():
     """Funtion to show the next match in soccer matches"""
     global conta, fut_matches
@@ -655,7 +659,9 @@ def fut_local_bet():
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {fut_matches[conta]['team1']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
     Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team1"]})).place(x=210, y=170)
-
+    Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
+    Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
+    
 def fut_visitor_bet():
     """Complete the user bet details for soccer visitor teams"""
     global conta, fut_matches, money, money_bet
@@ -668,6 +674,8 @@ def fut_visitor_bet():
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {fut_matches[conta]['team2']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
     Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"]})).place(x=210, y=170)
+    Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
+    Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
 def bask_local_bet():
     """Complete the user bet details for basketball local teams"""
@@ -681,6 +689,8 @@ def bask_local_bet():
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {bask_matches[conta]['team1']}\nin match {bask_matches[conta]['team1']} ({bask_matches[conta]['stats1'][2]}) VS {bask_matches[conta]['team1']} ({bask_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
     Button(window, text="Submit my bet", command= lambda: bets.append({"full": bask_matches[conta], "monto": int(money_bet.get()), "team": bask_matches[conta]["team1"]})).place(x=210, y=170)
+    Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
+    Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
 def bask_visitor_bet():
     """Complete the user bet details for basketball visitor teams"""
@@ -694,6 +704,8 @@ def bask_visitor_bet():
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {bask_matches[conta]['team2']}\nin match {bask_matches[conta]['team1']} ({bask_matches[conta]['stats1'][2]}) VS {bask_matches[conta]['team1']} ({bask_matches[conta]['stats2'][2]})", font=("Courier", 12)).place(x=0, y=200)
     Button(window, text="Submit my bet", command= lambda: bets.append({"full": bask_matches[conta], "monto": int(money_bet.get()), "team": bask_matches[conta]["team2"]})).place(x=210, y=170)
+    Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
+    Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
 def fut_bet():
     """Page where the user will enter their bet details for a specific match"""
@@ -723,9 +735,9 @@ def bask_bet():
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.title(f"Bet in {dumpling['team1']} VS {dumpling['team2']}")
     Label(window, text="Which basketball team will you bet on?", font=("Courier", 18)).place(x=0, y=0)
-    Button(window, text=f"{dumpling['team1']}", font=("Courier", 12)).place(x=80, y=100)
+    Button(window, text=f"{dumpling['team1']}", font=("Courier", 12), command=bask_local_bet).place(x=80, y=100)
     Label(window, text="VS", font=("Courier", 12)).place(x=260, y=100)
-    Button(window, text=f"{dumpling['team2']}", font=("Courier", 12)).place(x=340, y=100)
+    Button(window, text=f"{dumpling['team2']}", font=("Courier", 12), command=bask_visitor_bet).place(x=340, y=100)
     Label(window, text=f"Team reputation: ({dumpling['stats1'][2]})", font=("Courier", 12)).place(x=20, y=140)
     Label(window, text=f"Team reputation: ({dumpling['stats2'][2]})", font=("Courier", 12)).place(x=310, y=140)
     Button(window, text="Back", command=bask_page).place(x=0, y= 285)
