@@ -563,10 +563,11 @@ conta = 0
 money_bet = ""
 fut_matches = []
 bask_matches = []
+fini = False
 
 def about_page():
     """About FRIO MX page, where the user will find how to use FRIO MX software"""
-    global logged
+    global logged, fini
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.title("About FRIO MX")
     with open(path + r"\src\about.txt") as file:
@@ -574,12 +575,58 @@ def about_page():
     Label(window, text=message, font=("Courier", 13)).place(x=20, y=0)
     if logged == True:
         Button(window, text="Back", command=mainpage).place(x=490, y=590)
+    elif fini == True:
+        Button(window, text="Back", command=fin_mainpage).place(x=490, y=590)
     else:
         Button(window, text="Back", command=reload_gui).place(x=490, y=590)
 
+def fut_result_page():
+    """Shows the final scores of the soccer matches"""
+    pass
+
+def bask_result_page():
+    """Show the final scores of the basketball matches"""
+    pass
+
+def bet_results():
+    """Specifically shows the user bet results"""
+    pass
+
 def fin_mainpage():
     """Variation of mainpage, that now shows all the match results"""
-    pass
+    global money, username, soccer, basket, games_played, games_played2, fini, logged
+    logged = False
+    fini = True
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x620")
+    window.title("FRIO MX")
+    window.resizable(0, 0)
+    Label(window, text="Welcome", font=("Courier", 20)).place(x=30, y=0)
+    Label(window, text=f"{username.get()}", font=("Courier", 20)).place(x=160, y=0)
+    Label(window, text="to", font=("Courier", 20)).place(x=50, y=75)
+    Label(window, text="FRIO MX", font=("Courier", 60)).place(x=110, y=35)
+    Label(window, text=f"Your balance is ${money}", font=("Courier", 8)).place(x=365, y=0)
+    Button(text='>', command=next_img).place(x=505, y=90)
+    next_img()
+    Label(window, text="Select the sport you want to see match results", font=("Courier", 14)).place(x=0, y=390, height=50, width=540)
+    Button(window, text="Soccer", command=fut_result_page).place(x=0, y=440, height=60, width=270)
+    Button(window, text="Basketball", command=bask_result_page).place(x=0, y=500, height=60, width=270)
+    Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
+    Canvas(window).place(x=270, y=440, height=180, width=270)
+    dumpling = games_played[0]
+    Label(window, text="VS", font=("Courier", 10)).place(x=360, y=465)
+    Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=435)
+    Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=450)
+    Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 18)).place(x=410, y=440)
+    Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=468)
+    dumpling = games_played2[0]
+    Label(window, text="VS", font=("Courier", 10)).place(x=360, y=525)
+    Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=495)
+    Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=510)
+    Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 18)).place(x=410, y=500)
+    Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=528)
+    Button(window, text="About FRIO MX", command=about_page).place(x=445, y=360)
+    Button(window, text="Show my bet results", command=bet_results, bg="#46dbe0").place(x=421, y=335)
 
 def fut_next():
     """Funtion to show the next match in soccer matches"""
@@ -854,7 +901,7 @@ def gui_email_verif():
 
 def next_img():
     """Iterate through the mainpage images"""
-    global logged, soccer, basket, games_playes, games_played2
+    global logged, soccer, basket, games_playes, games_played2, fini
     if logged == True:
         panel = Label(window,width= 540, height= 500)
         panel.place(x=0, y= 130)
@@ -869,7 +916,39 @@ def next_img():
             panel['image'] = img
             window.update()
             Label(window, text="Select the sport you want to bet in", font=("Courier", 18)).place(x=0, y=390, height=50, width=540)
-            Button(window, text="Football (Soccer)", command=fut_page).place(x=0, y=440, height=60, width=270)
+            Button(window, text="Soccer", command=fut_page).place(x=0, y=440, height=60, width=270)
+            Button(window, text="Basketball", command=bask_page).place(x=0, y=500, height=60, width=270)
+            Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
+            Canvas(window).place(x=270, y=440, height=180, width=270)
+            dumpling = games_played[0]
+            Label(window, text="VS", font=("Courier", 10)).place(x=360, y=465)
+            Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=435)
+            Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=450)
+            Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 18)).place(x=410, y=440)
+            Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=468)
+            dumpling = games_played2[0]
+            Label(window, text="VS", font=("Courier", 10)).place(x=360, y=525)
+            Label(window, text="Featured match:", font=("Courier", 10)).place(x=280, y=495)
+            Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=510)
+            Label(window, text=f"{dumpling['score1']} - {dumpling['score2']}", font=("Courier", 18)).place(x=410, y=500)
+            Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=528)
+            Button(window, text="About FRIO MX", command=about_page).place(x=445, y=360)
+
+    elif fini == True:
+        panel = Label(window,width= 540, height= 500)
+        panel.place(x=0, y= 130)
+        try:
+            img = next(images)
+        except StopIteration:
+            pass
+        else:
+            img = Image.open(path + r"\media\\" + img)
+            img = ImageTk.PhotoImage(img)
+            panel.img = img
+            panel['image'] = img
+            window.update()
+            Label(window, text="Select the sport you want to see match results", font=("Courier", 14)).place(x=0, y=390, height=50, width=540)
+            Button(window, text="Soccer", command=fut_page).place(x=0, y=440, height=60, width=270)
             Button(window, text="Basketball", command=bask_page).place(x=0, y=500, height=60, width=270)
             Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
             Canvas(window).place(x=270, y=440, height=180, width=270)
@@ -884,6 +963,7 @@ def next_img():
             Label(window, text=f"{dumpling['team1']}", font=("Courier", 10)).place(x=280, y=510)
             Label(window, text=f"{dumpling['team2']}", font=("Courier", 10)).place(x=415, y=528)
             Button(window, text="About FRIO MX", command=about_page).place(x=445, y=360)
+            Button(window, text="Show my bet results", command=bet_results, bg="#46dbe0").place(x=421, y=335)
     else:
         panel = Label(window,width= 540, height= 500)
         panel.place(x=0, y= 130)
@@ -915,7 +995,7 @@ def mainpage():
     Button(text='>', command=next_img).place(x=505, y=90)
     next_img()
     Label(window, text="Select the sport you want to bet in", font=("Courier", 18)).place(x=0, y=390, height=50, width=540)
-    Button(window, text="Football (Soccer)", command=fut_page).place(x=0, y=440, height=60, width=270)
+    Button(window, text="Soccer", command=fut_page).place(x=0, y=440, height=60, width=270)
     Button(window, text="Basketball", command=bask_page).place(x=0, y=500, height=60, width=270)
     Button(window, text="Tennis (Coming soon)").place(x=0, y=560, height=60, width=270)
     Canvas(window).place(x=270, y=440, height=180, width=270)
