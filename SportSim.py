@@ -580,6 +580,11 @@ def about_page():
     else:
         Button(window, text="Back", command=reload_gui).place(x=490, y=590)
 
+def next_bet():
+    """Shows next bet in personal bets"""
+    global conta, bets, money
+    pass
+
 def fut_result_page():
     """Shows the final scores of the soccer matches"""
     pass
@@ -590,7 +595,20 @@ def bask_result_page():
 
 def bet_results():
     """Specifically shows the user bet results"""
-    pass
+    global bets, money, user, conta
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x310")
+    window.title(f"{user}'s recent bets'")
+    Button(window, text="Next bet").place(x=100, y=100)
+    dumpling = []
+    try:
+        conta += 1
+        dumpling = bets[conta]["full"]
+    except IndexError:
+        conta = 0
+        dumpling = bets[conta]["full"]
+    Label(window, text=f"{dumpling['team1']} VS {dumpling['team2']}", font=("Courier", 12)).place(x=0, y=0)
+
 
 def fin_mainpage():
     """Variation of mainpage, that now shows all the match results"""
