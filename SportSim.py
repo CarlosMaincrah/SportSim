@@ -614,11 +614,6 @@ def next_fin_img():
         Button(window, text="About FRIO MX", command=about_page, bg="#5ee041").place(x=445, y=360)
         Button(window, text="Show my bet results", command=bet_results, bg="#46dbe0").place(x=421, y=335)
 
-def next_bet():
-    """Shows next bet in personal bets"""
-    global conta, bets, money
-    pass
-
 def bask_result_next():
     global conta, bask_matches
     try:
@@ -723,19 +718,24 @@ def bask_result_page():
 def bet_results():
     """Specifically shows the user bet results"""
     global bets, money, user, conta
+    conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
-    window.title(f"{user}'s recent bets'")
-    Button(window, text="Next bet").place(x=100, y=100)
+    window.title(f"{user}'s recent bets")
     dumpling = []
-    try:
-        conta += 1
-        dumpling = bets[conta]["full"]
-    except IndexError:
-        conta = 0
-        dumpling = bets[conta]["full"]
-    Label(window, text=f"{dumpling['team1']} VS {dumpling['team2']}", font=("Arial", 12)).place(x=0, y=0)
-
+    if dumpling:
+        try:
+            if bets[conta+1]["full"]:
+                conta += 1
+                dumpling = bets[conta]["full"]
+                Button(window, text="Next bet", command=bet_results).place(x=100, y=100)
+        except IndexError:
+            dumpling = bets[conta]["full"]
+        Label(window, text=f"{dumpling['team1']} VS {dumpling['team2']}", font=("Arial", 12)).place(x=0, y=0)
+    else:
+        Label(window, text="You didn't bet in any match,", font=("Arial", 36)).place(x=0, y=0)
+        Label(window, text="come back later", font=("Arial", 36)).place(x=0, y=60)
+        Button(window, text="Back", command=fin_mainpage).place(x=0, y=285)
 
 def fin_mainpage():
     """Variation of mainpage, that now shows all the match results"""
@@ -750,7 +750,7 @@ def fin_mainpage():
     Label(window, text=f"{username.get()}", font=("Arial", 20)).place(x=160, y=0)
     Label(window, text="to", font=("Arial", 20)).place(x=50, y=75)
     Label(window, text="FRIO MX", font=("Arial", 60)).place(x=110, y=35)
-    Label(window, text=f"Your balance is ${money}", font=("Arial", 8)).place(x=365, y=0)
+    Label(window, text=f"Your balance is ${money}", font=("Arial", 10)).place(x=365, y=0)
     Button(text='>', command=next_fin_img).place(x=505, y=90)
     next_img()
     Label(window, text="Select the sport you want to see match results", font=("Arial", 14)).place(x=0, y=390, height=50, width=540)
@@ -839,6 +839,22 @@ def bask_next():
         Button(window, text="Next", command=bask_next).place(x=420, y=110)
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
+def valid_bet_soccer():
+    """Checks if the current bet is valid and if it is, is submitted"""
+    global money, money_bet
+    if money_bet <= money:
+        bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "basketball"})
+    else:
+        pass
+
+def valid_bet_basketball():
+    """Checks if the current bet is valid and if it is, is submitted"""
+    global money, money_bet
+    if money_bet <= money:
+        bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "basketball"})
+    else:
+        pass
+
 def fut_local_bet():
     """Complete the user bet details for soccer local teams"""
     global conta, fut_matches, money, money_bet
@@ -850,7 +866,7 @@ def fut_local_bet():
     Label(window, text="All bets are non-refundable", font=("Arial", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {fut_matches[conta]['team1']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Arial", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team1"], "sport": "soccer"})).place(x=210, y=170)
+    Button(window, text="Submit my bet", command=lambda:valid_bet_soccer).place(x=210, y=170)
     Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
     
@@ -865,7 +881,7 @@ def fut_visitor_bet():
     Label(window, text="All bets are non-refundable", font=("Arial", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {fut_matches[conta]['team2']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Arial", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command= lambda: bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "soccer"})).place(x=210, y=170)
+    Button(window, text="Submit my bet", command=lambda:valid_bet_soccer).place(x=210, y=170)
     Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
@@ -880,7 +896,7 @@ def bask_local_bet():
     Label(window, text="All bets are non-refundable", font=("Arial", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {bask_matches[conta]['team1']}\nin match {bask_matches[conta]['team1']} ({bask_matches[conta]['stats1'][2]}) VS {bask_matches[conta]['team1']} ({bask_matches[conta]['stats2'][2]})", font=("Arial", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command= lambda: bets.append({"full": bask_matches[conta], "monto": int(money_bet.get()), "team": bask_matches[conta]["team1"], "sport": "basketball"})).place(x=210, y=170)
+    Button(window, text="Submit my bet", command=lambda:valid_bet_basketball).place(x=210, y=170)
     Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
@@ -895,7 +911,7 @@ def bask_visitor_bet():
     Label(window, text="All bets are non-refundable", font=("Arial", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {bask_matches[conta]['team2']}\nin match {bask_matches[conta]['team1']} ({bask_matches[conta]['stats1'][2]}) VS {bask_matches[conta]['team1']} ({bask_matches[conta]['stats2'][2]})", font=("Arial", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command= lambda: bets.append({"full": bask_matches[conta], "monto": int(money_bet.get()), "team": bask_matches[conta]["team2"], "sport": "basketball"})).place(x=210, y=170)
+    Button(window, text="Submit my bet", command=lambda:valid_bet_basketball).place(x=210, y=170)
     Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
@@ -1103,7 +1119,7 @@ def mainpage():
     Label(window, text=f"{username.get()}", font=("Arial", 20)).place(x=160, y=0)
     Label(window, text="to", font=("Arial", 20)).place(x=50, y=75)
     Label(window, text="FRIO MX", font=("Arial", 60)).place(x=110, y=35)
-    Label(window, text=f"Your balance is ${money}", font=("Arial", 8)).place(x=365, y=0)
+    Label(window, text=f"Your balance is ${money}", font=("Arial", 10)).place(x=365, y=0)
     Button(text='>', command=next_img).place(x=505, y=90)
     next_img()
     Label(window, text="Select the sport you want to bet in", font=("Arial", 18)).place(x=0, y=390, height=50, width=540)
