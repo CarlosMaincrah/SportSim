@@ -619,6 +619,38 @@ def next_bet():
     global conta, bets, money
     pass
 
+def bask_result_next():
+    global conta, bask_matches
+    try:
+        conta += 1
+        i = bask_matches[conta]
+        r = i['stats1']
+        l = i['stats2']
+    except IndexError:
+        conta = 0
+        i = bask_matches[conta]
+        r = i['stats1']
+        l = i['stats2']
+        Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+        window.title(f"{i['team1']} vs {i['team2']} Results")
+        Label(window, text="Basketball match results:", font=("Courier", 26)).place(x=0, y=0)
+        Label(window, text=f"{i['team1']} ({r[2]})", font=("Courier", 24)).place(x=0, y=80)
+        Label(window, text=f"{i['team2']} ({l[2]})", font=("Courier", 24)).place(x=0, y=155)
+        Label(window, text="VS", font=("Courier", 24)).place(x=0, y=120)
+        Button(window, text="Next", command=bask_result_next).place(x=420, y=110)
+        Label(window, text=f"{i['score1']} - {i['score2']}", font=("Courier", 22)).place(x=260, y=120)
+        Button(window, text="Back", command=fin_mainpage).place(x=0, y=285)
+    else:
+        Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+        window.title(f"{i['team1']} vs {i['team2']} Results")
+        Label(window, text="Basketball match results:", font=("Courier", 26)).place(x=0, y=0)
+        Label(window, text=f"{i['team1']} ({r[2]})", font=("Courier", 24)).place(x=0, y=80)
+        Label(window, text=f"{i['team2']} ({l[2]})", font=("Courier", 24)).place(x=0, y=155)
+        Label(window, text="VS", font=("Courier", 24)).place(x=0, y=120)
+        Label(window, text=f"{i['score1']} - {i['score2']}", font=("Courier", 22)).place(x=260, y=120)
+        Button(window, text="Next", command=bask_result_next).place(x=420, y=110)
+        Button(window, text="Back", command=fin_mainpage).place(x=0, y=285)
+
 def fut_result_next():
     """Next final soccer score"""
     global conta, fut_matches
@@ -658,7 +690,6 @@ def fut_result_page():
     conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
-    Label(window, text="Soccer match results:", font=("Courier", 30)).place(x=0, y=0)
     i = fut_matches[0]
     r = i['stats1']
     l = i['stats2']
@@ -673,7 +704,21 @@ def fut_result_page():
 
 def bask_result_page():
     """Show the final scores of the basketball matches"""
-    pass
+    global basket, conta, bask_matches
+    conta = 0
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.geometry("540x310")
+    i = bask_matches[0]
+    r = i['stats1']
+    l = i['stats2']
+    window.title(f"{i['team1']} vs {i['team2']} Results")
+    Label(window, text="Basketball match results:", font=("Courier", 26)).place(x=0, y=0)
+    Label(window, text=f"{i['team1']} ({r[2]})", font=("Courier", 24)).place(x=0, y=80)
+    Label(window, text=f"{i['team2']} ({l[2]})", font=("Courier", 24)).place(x=0, y=156)
+    Label(window, text="VS", font=("Courier", 24)).place(x=0, y=120)
+    Label(window, text=f"{i['score1']} - {i['score2']}", font=("Courier", 22)).place(x=260, y=120)
+    Button(window, text="Next", command=bask_result_next).place(x=420, y=110)
+    Button(window, text="Back", command=fin_mainpage).place(x=0, y=285)
 
 def bet_results():
     """Specifically shows the user bet results"""
