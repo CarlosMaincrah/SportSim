@@ -616,6 +616,7 @@ def next_fin_img():
 
 def bask_result_next():
     global conta, bask_matches
+    """Next final basketball score"""
     try:
         conta += 1
         i = bask_matches[conta]
