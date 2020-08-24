@@ -719,21 +719,52 @@ def bask_result_page():
 def bet_results():
     """Specifically shows the user bet results"""
     global bets, money, user, conta
+    #Work in progress
     conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
     window.title(f"{user}'s recent bets")
     dumpling = []
-    if dumpling:
+    if bets:
         try:
             if bets[conta+1]["full"]:
                 conta += 1
                 dumpling = bets[conta]["full"]
                 Button(window, text="Next bet", command=bet_results).place(x=100, y=100)
-                
         except IndexError:
             dumpling = bets[conta]["full"]
         Label(window, text=f"{dumpling['team1']} VS {dumpling['team2']}", font=("Arial", 12)).place(x=0, y=0)
+        for i in dumpling:
+            if i["team1"] == bets[conta]["team"] and bets[conta]["sport"] == "soccer":
+                if i["score1"] > i["score2"]:
+                    Label(window, text="Your team won this match").place(x=100, y=100)
+                elif i["score1"] < i["score2"]:
+                    Label(window, text="Your team lost this match").place(x=100, y=100)
+                else:
+                    Label(window, text="The match ended tied").place(x=100, y=100)
+            elif i["team2"] == bets[conta]["team"] and bets[conta]["sport"] == "soccer":
+                if i["score1"] < i["score2"]:
+                    Label(window, text="Your team won this match").place(x=100, y=100)
+                elif i["score1"] > i["score2"]:
+                    Label(window, text="Your team lost this match").place(x=100, y=100)
+                else:
+                    Label(window, text="The match ended tied").place(x=100, y=100)
+            elif i["team1"] == bets[conta]["team"] and bets[conta]["sport"] == "basketball":
+                if i["score1"] > i["score2"]:
+                    Label(window, text="Your team won this match").place(x=100, y=100)
+                elif i["score1"] < i["score2"]:
+                    Label(window, text="Your team lost this match").place(x=100, y=100)
+                else:
+                    Label(window, text="The match ended tied").place(x=100, y=100)
+            elif i["team2"] == bets[conta]["team"] and bets[conta]["sport"] == "basketball":
+                if i["score1"] < i["score2"]:
+                    Label(window, text="Your team won this match").place(x=100, y=100)
+                elif i["score1"] > i["score2"]:
+                    Label(window, text="Your team lost this match").place(x=100, y=100)
+                else:
+                    Label(window, text="The match ended tied").place(x=100, y=100)
+            else:
+                Label(window, text="Internal error", font=("Arial", 12)).place(x=0, y=0)
     else:
         Label(window, text="You didn't bet in any match,", font=("Arial", 36)).place(x=0, y=0)
         Label(window, text="come back later", font=("Arial", 36)).place(x=0, y=60)
@@ -841,18 +872,36 @@ def bask_next():
         Button(window, text="Next", command=bask_next).place(x=420, y=110)
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
-def valid_bet_soccer():
+def valid_bet_soccer_local():
     """Checks if the current bet is valid and if it is, is submitted"""
     global money, money_bet
-    if money_bet <= money:
-        bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "basketball"})
+    if int(money_bet.get()) <= money:
+        bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team1"], "sport": "soccer"})
+        temp = money - int(money_bet.get())
+        money_bet = str(temp)
     else:
         pass
 
-def valid_bet_basketball():
+def valid_bet_soccer_visitor():
     """Checks if the current bet is valid and if it is, is submitted"""
     global money, money_bet
-    if money_bet <= money:
+    if int(money_bet.get()) <= money:
+        bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "soccer"})
+    else:
+        pass
+
+def valid_bet_basketball_local():
+    """Checks if the current bet is valid and if it is, is submitted"""
+    global money, money_bet
+    if int(money_bet.get()) <= money:
+        bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team1"], "sport": "basketball"})
+    else:
+        pass
+
+def valid_bet_basketball_visitor():
+    """Checks if the current bet is valid and if it is, is submitted"""
+    global money, money_bet
+    if int(money_bet.get()) <= money:
         bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "basketball"})
     else:
         pass
@@ -868,7 +917,7 @@ def fut_local_bet():
     Label(window, text="All bets are non-refundable", font=("Arial", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {fut_matches[conta]['team1']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Arial", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command=lambda:valid_bet_soccer).place(x=210, y=170)
+    Button(window, text="Submit my bet", command=valid_bet_soccer_local).place(x=210, y=170)
     Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
     
@@ -883,7 +932,7 @@ def fut_visitor_bet():
     Label(window, text="All bets are non-refundable", font=("Arial", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {fut_matches[conta]['team2']}\nin match {fut_matches[conta]['team1']} ({fut_matches[conta]['stats1'][2]}) VS {fut_matches[conta]['team1']} ({fut_matches[conta]['stats2'][2]})", font=("Arial", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command=lambda:valid_bet_soccer).place(x=210, y=170)
+    Button(window, text="Submit my bet", command=valid_bet_soccer_visitor).place(x=210, y=170)
     Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
@@ -898,7 +947,7 @@ def bask_local_bet():
     Label(window, text="All bets are non-refundable", font=("Arial", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {bask_matches[conta]['team1']}\nin match {bask_matches[conta]['team1']} ({bask_matches[conta]['stats1'][2]}) VS {bask_matches[conta]['team1']} ({bask_matches[conta]['stats2'][2]})", font=("Arial", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command=lambda:valid_bet_basketball).place(x=210, y=170)
+    Button(window, text="Submit my bet", command=valid_bet_basketball_local).place(x=210, y=170)
     Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
@@ -913,7 +962,7 @@ def bask_visitor_bet():
     Label(window, text="All bets are non-refundable", font=("Arial", 7)).place(x=390, y=289)
     Entry(window, textvariable=money_bet).place(x=200, y=150)
     Label(window, text=f"Currently betting for {bask_matches[conta]['team2']}\nin match {bask_matches[conta]['team1']} ({bask_matches[conta]['stats1'][2]}) VS {bask_matches[conta]['team1']} ({bask_matches[conta]['stats2'][2]})", font=("Arial", 12)).place(x=0, y=200)
-    Button(window, text="Submit my bet", command=lambda:valid_bet_basketball).place(x=210, y=170)
+    Button(window, text="Submit my bet", command=valid_bet_basketball_visitor).place(x=210, y=170)
     Button(window, text="Bet in other matches", command=mainpage).place(x=410, y=50)
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
