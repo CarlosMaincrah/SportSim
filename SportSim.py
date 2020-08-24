@@ -887,6 +887,8 @@ def valid_bet_soccer_visitor():
     global money, money_bet
     if int(money_bet.get()) <= money:
         bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "soccer"})
+        temp = money - int(money_bet.get())
+        money_bet = str(temp)
     else:
         pass
 
@@ -895,6 +897,8 @@ def valid_bet_basketball_local():
     global money, money_bet
     if int(money_bet.get()) <= money:
         bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team1"], "sport": "basketball"})
+        temp = money - int(money_bet.get())
+        money_bet = str(temp)
     else:
         pass
 
@@ -903,6 +907,8 @@ def valid_bet_basketball_visitor():
     global money, money_bet
     if int(money_bet.get()) <= money:
         bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "basketball"})
+        temp = money - int(money_bet.get())
+        money_bet = str(temp)
     else:
         pass
 
