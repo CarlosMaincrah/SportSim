@@ -730,6 +730,7 @@ def bet_results():
                 conta += 1
                 dumpling = bets[conta]["full"]
                 Button(window, text="Next bet", command=bet_results).place(x=100, y=100)
+                
         except IndexError:
             dumpling = bets[conta]["full"]
         Label(window, text=f"{dumpling['team1']} VS {dumpling['team2']}", font=("Arial", 12)).place(x=0, y=0)
