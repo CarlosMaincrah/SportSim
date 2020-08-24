@@ -572,7 +572,7 @@ def about_page():
     window.title("About FRIO MX")
     with open(path + r"\src\about.txt") as file:
         message = file.read()
-    Label(window, text=message, font=("Arial", 13)).place(x=20, y=0)
+    Label(window, text=message, font=("Arial", 14)).place(x=50, y=0)
     if logged == True:
         Button(window, text="Back", command=mainpage).place(x=490, y=590)
     elif fini == True:
@@ -719,75 +719,78 @@ def bask_result_page():
 def bet_results():
     """Specifically shows the user bet results"""
     global bets, money, user, conta
-    #Work in progress
-    conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
     window.title(f"{user}'s recent bets")
     dumpling = []
     if bets:
         try:
+            d = bets[conta]
+        except IndexError:
+            conta = -1
+        try:
             if bets[conta+1]["full"]:
                 conta += 1
                 dumpling = bets[conta]["full"]
-                Button(window, text="Next bet", command=bet_results).place(x=100, y=100)
+                Button(window, text="Next bet", command=bet_results).place(x=380, y=100)
         except IndexError:
+            conta = 0
             dumpling = bets[conta]["full"]
         Label(window, text=f"{dumpling['team1']} VS {dumpling['team2']}", font=("Arial", 12)).place(x=0, y=0)
         if dumpling["team1"] == bets[conta]["team"] and bets[conta]["sport"] == "soccer":
             if dumpling["score1"] > dumpling["score2"]:
                 Label(window, text="Your team won this match").place(x=200, y=100)
-                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=200, y=120)
+                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=180, y=120)
                 money += bets[conta]['monto']*2
             elif dumpling["score1"] < dumpling["score2"]:
                 Label(window, text="Your team lost this match").place(x=200, y=100)
-                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=200, y=120)
+                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=180, y=120)
             else:
                 Label(window, text="The match ended tied").place(x=200, y=100)
-                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=200, y=120)
+                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=180, y=120)
                 money += bets[conta]['monto']
         elif dumpling["team2"] == bets[conta]["team"] and bets[conta]["sport"] == "soccer":
             if dumpling["score1"] < dumpling["score2"]:
                 Label(window, text="Your team won this match").place(x=200, y=100)
-                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=200, y=120)
+                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=180, y=120)
                 money += bets[conta]['monto']*2
             elif dumpling["score1"] > dumpling["score2"]:
                 Label(window, text="Your team lost this match").place(x=200, y=100)
-                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=200, y=120)
+                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=180, y=120)
             else:
                 Label(window, text="The match ended tied").place(x=200, y=100)
-                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=200, y=120)
+                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=180, y=120)
                 money += bets[conta]['monto']
         elif dumpling["team1"] == bets[conta]["team"] and bets[conta]["sport"] == "basketball":
             if dumpling["score1"] > dumpling["score2"]:
                 Label(window, text="Your team won this match").place(x=200, y=100)
-                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=200, y=120)
+                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=180, y=120)
                 money += bets[conta]['monto']*2
             elif dumpling["score1"] < dumpling["score2"]:
                 Label(window, text="Your team lost this match").place(x=200, y=100)
-                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=200, y=120)
+                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=180, y=120)
             else:
                 Label(window, text="The match ended tied").place(x=200, y=100)
-                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=200, y=120)
+                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=180, y=120)
                 money += bets[conta]['monto']
         elif dumpling["team2"] == bets[conta]["team"] and bets[conta]["sport"] == "basketball":
             if dumpling["score1"] < dumpling["score2"]:
                 Label(window, text="Your team won this match").place(x=200, y=100)
-                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=200, y=120)
+                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=180, y=120)
                 money += bets[conta]['monto']*2
             elif dumpling["score1"] > dumpling["score2"]:
                 Label(window, text="Your team lost this match").place(x=200, y=100)
-                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=200, y=120)
+                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=180, y=120)
             else:
                 Label(window, text="The match ended tied").place(x=200, y=100)
-                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=200, y=120)
+                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=180, y=120)
                 money += bets[conta]['monto']
         else:
             Label(window, text="Internal error", font=("Arial", 12)).place(x=0, y=0)
         Button(window, text="Back", command=fin_mainpage).place(x=0, y=285)
     else:
-        Label(window, text="You didn't bet in any match,", font=("Arial", 36)).place(x=0, y=0)
-        Label(window, text="come back later", font=("Arial", 36)).place(x=0, y=60)
+        Label(window, text="You didn't bet in any match,", font=("Arial", 28)).place(x=0, y=0)
+        Label(window, text="come back later", font=("Arial", 28)).place(x=0, y=60)
         Button(window, text="Back", command=fin_mainpage).place(x=0, y=285)
 
 def fin_mainpage():
@@ -845,8 +848,8 @@ def fut_next():
         Label(window, text=f"{i['team1']} ({r[2]})", font=("Arial", 24)).place(x=0, y=80)
         Label(window, text=f"{i['team2']} ({l[2]})", font=("Arial", 24)).place(x=0, y=155)
         Label(window, text="VS", font=("Arial", 24)).place(x=0, y=120)
-        Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=210)
-        Button(window, text="Next", command=fut_next).place(x=420, y=110)
+        Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=10)
+        Button(window, text="Next", command=fut_next).place(x=420, y=120)
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
     else:
         Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
@@ -855,8 +858,8 @@ def fut_next():
         Label(window, text=f"{i['team1']} ({r[2]})", font=("Arial", 24)).place(x=0, y=80)
         Label(window, text=f"{i['team2']} ({l[2]})", font=("Arial", 24)).place(x=0, y=155)
         Label(window, text="VS", font=("Arial", 24)).place(x=0, y=120)
-        Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=210)
-        Button(window, text="Next", command=fut_next).place(x=420, y=110)
+        Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=10)
+        Button(window, text="Next", command=fut_next).place(x=420, y=120)
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
 def bask_next():
@@ -878,8 +881,8 @@ def bask_next():
         Label(window, text=f"{i['team1']} ({r[2]})", font=("Arial", 24)).place(x=0, y=80)
         Label(window, text=f"{i['team2']} ({l[2]})", font=("Arial", 24)).place(x=0, y=155)
         Label(window, text="VS", font=("Arial", 24)).place(x=0, y=120)
-        Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=210)
-        Button(window, text="Next", command=bask_next).place(x=420, y=110)
+        Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=10)
+        Button(window, text="Next", command=bask_next).place(x=420, y=120)
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
     else:
         Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
@@ -888,8 +891,8 @@ def bask_next():
         Label(window, text=f"{i['team1']} ({r[2]})", font=("Arial", 24)).place(x=0, y=80)
         Label(window, text=f"{i['team2']} ({l[2]})", font=("Arial", 24)).place(x=0, y=155)
         Label(window, text="VS", font=("Arial", 24)).place(x=0, y=120)
-        Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=210)
-        Button(window, text="Next", command=bask_next).place(x=420, y=110)
+        Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=10)
+        Button(window, text="Next", command=bask_next).place(x=420, y=120)
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
 def valid_bet_soccer_local():
@@ -1045,7 +1048,6 @@ def bask_page():
                 basket.remove(basket[ind1])
             bask_matches.append(partido_basq(basket[ind1], basket[ind2])[0])
             #finalizar_ciclo_fut(partidos_jugados)
-    Label(window, text="Bet in basketball matches!", font=("Arial", 25)).place(x=0, y=0)
     i = bask_matches[0]
     r = i['stats1']
     l = i['stats2']
@@ -1054,8 +1056,8 @@ def bask_page():
     Label(window, text=f"{i['team1']} ({r[2]})", font=("Arial", 24)).place(x=0, y=80)
     Label(window, text=f"{i['team2']} ({l[2]})", font=("Arial", 24)).place(x=0, y=156)
     Label(window, text="VS", font=("Arial", 24)).place(x=0, y=120)
-    Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=210)
-    Button(window, text="Next", command=bask_next).place(x=420, y=110)
+    Button(window, text="Bet in this match", command=bask_bet).place(x=420, y=10)
+    Button(window, text="Next", command=bask_next).place(x=420, y=120)
     Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
 
@@ -1074,7 +1076,6 @@ def fut_page():
                 soccer.remove(soccer[ind1])
             fut_matches.append(partido_fut(soccer[ind1], soccer[ind2])[0])
             #finalizar_ciclo_fut(partidos_jugados)
-    Label(window, text="Bet in soccer matches!", font=("Arial", 30)).place(x=0, y=0)
     i = fut_matches[0]
     r = i['stats1']
     l = i['stats2']
@@ -1083,8 +1084,8 @@ def fut_page():
     Label(window, text=f"{i['team1']} ({r[2]})", font=("Arial", 24)).place(x=0, y=80)
     Label(window, text=f"{i['team2']} ({l[2]})", font=("Arial", 24)).place(x=0, y=156)
     Label(window, text="VS", font=("Arial", 24)).place(x=0, y=120)
-    Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=210)
-    Button(window, text="Next", command=fut_next).place(x=420, y=110)
+    Button(window, text="Bet in this match", command=fut_bet).place(x=420, y=10)
+    Button(window, text="Next", command=fut_next).place(x=420, y=120)
     Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
 def verif_code():
