@@ -544,7 +544,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 from time import *
 
-images = ["mainpage1.jpg", "mainpage2.jpg", "mainpage3.jpg", "mainpage4.jpg"]
+images = ["mainpage1.jpg", "mainpage2.jpg", "mainpage3.jpg", "mainpage4.jpg", "mainpage5.jpg"]
 images = itertools.cycle(images)
 window = ""
 username = ""
