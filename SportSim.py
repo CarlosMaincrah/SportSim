@@ -562,7 +562,23 @@ games_played2 = partido_basq(basket[0], basket[1])
 conta = 0
 money_bet = ""
 fut_matches = []
+for i in soccer:
+    if soccer.index(i) % 2 == 0:
+        ind1 = soccer.index(i)
+        ind2 = int(soccer.index(i))+1
+        if soccer[ind1] == soccer[ind2]:
+            soccer.remove(soccer[ind1])
+        fut_matches.append(partido_fut(soccer[ind1], soccer[ind2])[0])
+        #finalizar_ciclo_fut(partidos_jugados)
 bask_matches = []
+for i in basket:
+    if basket.index(i) % 2 == 0:
+        ind1 = basket.index(i)
+        ind2 = int(basket.index(i))+1
+        if basket[ind1] == basket[ind2]:
+            basket.remove(basket[ind1])
+        bask_matches.append(partido_basq(basket[ind1], basket[ind2])[0])
+        #finalizar_ciclo_fut(partidos_jugados)
 fini = False
 
 def about_page():
@@ -1039,15 +1055,6 @@ def bask_page():
     conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
-    bask_matches = []
-    for i in basket:
-        if basket.index(i) % 2 == 0:
-            ind1 = basket.index(i)
-            ind2 = int(basket.index(i))+1
-            if basket[ind1] == basket[ind2]:
-                basket.remove(basket[ind1])
-            bask_matches.append(partido_basq(basket[ind1], basket[ind2])[0])
-            #finalizar_ciclo_fut(partidos_jugados)
     i = bask_matches[0]
     r = i['stats1']
     l = i['stats2']
@@ -1067,15 +1074,6 @@ def fut_page():
     conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
     window.geometry("540x310")
-    fut_matches = []
-    for i in soccer:
-        if soccer.index(i) % 2 == 0:
-            ind1 = soccer.index(i)
-            ind2 = int(soccer.index(i))+1
-            if soccer[ind1] == soccer[ind2]:
-                soccer.remove(soccer[ind1])
-            fut_matches.append(partido_fut(soccer[ind1], soccer[ind2])[0])
-            #finalizar_ciclo_fut(partidos_jugados)
     i = fut_matches[0]
     r = i['stats1']
     l = i['stats2']
