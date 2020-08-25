@@ -569,7 +569,7 @@ for i in soccer:
         if soccer[ind1] == soccer[ind2]:
             soccer.remove(soccer[ind1])
         fut_matches.append(partido_fut(soccer[ind1], soccer[ind2])[0])
-        #finalizar_ciclo_fut(partidos_jugados)
+        finalizar_ciclo_fut(partidos_jugados)
 bask_matches = []
 for i in basket:
     if basket.index(i) % 2 == 0:
@@ -578,7 +578,7 @@ for i in basket:
         if basket[ind1] == basket[ind2]:
             basket.remove(basket[ind1])
         bask_matches.append(partido_basq(basket[ind1], basket[ind2])[0])
-        #finalizar_ciclo_fut(partidos_jugados)
+        finalizar_ciclo_fut(partidos_jugados)
 fini = False
 
 def about_page():
@@ -595,6 +595,43 @@ def about_page():
         Button(window, text="Back", command=fin_mainpage).place(x=490, y=590)
     else:
         Button(window, text="Back", command=reload_gui).place(x=490, y=590)
+
+def deposit_thousand():
+    """Adds $1000 credits to user money"""
+    global money
+    money += 1000
+
+def deposit_f_thousand():
+    """Adds $5000 credits to user money"""
+    global money
+    money += 5000
+
+def deposit_t_thousand():
+    """Adds $10000 credits to user money"""
+    global money
+    money += 10000
+
+def deposit_tf_thousand():
+    """Adds $50000 credits to user money"""
+    global money
+    money += 50000
+
+def deposit_page():
+    """Where the user can deposit credit to their account"""
+    global money, logged, finii
+    window.geometry("540x310")
+    Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
+    window.title("Add credit to your account")
+    Label(window, text="Add credit to your wallet!", font=("Arial", 34)).place(x=15, y=0)
+    Label(window, text="Select the amount of credits you want to add:", font=("Arial", 18)).place(x=20, y=60)
+    Button(window, text="$1000", command=deposit_thousand, font=("Arial", 14)).place(x=90, y=130, width=120, height=50)
+    Button(window, text="$5000", command=deposit_f_thousand, font=("Arial", 14)).place(x=340, y=130, width=120, height=50)
+    Button(window, text="$10000", command=deposit_t_thousand, font=("Arial", 14)).place(x=90, y=240, width=120, height=50)
+    Button(window, text="$50000", command=deposit_tf_thousand, font=("Arial", 14)).place(x=340, y=240, width=120, height=50)
+    if logged == True:
+        Button(window, text="Back", command=mainpage).place(x=0, y=285)
+    elif fini == True:
+        Button(window, text="Back", command=fin_mainpage).place(x=0, y=285)
 
 def next_fin_img():
     """Main image iteration in fin_mainpage"""
@@ -629,6 +666,7 @@ def next_fin_img():
         Label(window, text=f"{dumpling['team2']}", font=("Arial", 10)).place(x=400, y=528)
         Button(window, text="About FRIO MX", command=about_page, bg="#5ee041").place(x=445, y=360)
         Button(window, text="Show my bet results", command=bet_results, bg="#46dbe0").place(x=421, y=335)
+        Button(window, text="Add credit to your account", command=deposit_page, bg="#cc716a").place(x=2, y=360)
 
 def bask_result_next():
     global conta, bask_matches
@@ -844,6 +882,7 @@ def fin_mainpage():
     Label(window, text=f"{dumpling['team2']}", font=("Arial", 10)).place(x=400, y=528)
     Button(window, text="About FRIO MX", command=about_page, bg="#5ee041").place(x=445, y=360)
     Button(window, text="Show my bet results", command=bet_results, bg="#46dbe0").place(x=421, y=335)
+    Button(window, text="Add credit to your account", command=deposit_page, bg="#cc716a").place(x=2, y=360)
 
 def fut_next():
     """Funtion to show the next match in soccer matches"""
@@ -1158,6 +1197,7 @@ def next_img():
             Label(window, text=f"{dumpling['team1']}", font=("Arial", 10)).place(x=280, y=510)
             Label(window, text=f"{dumpling['team2']}", font=("Arial", 10)).place(x=400, y=528)
             Button(window, text="About FRIO MX", command=about_page, bg="#5ee041").place(x=445, y=360)
+            Button(window, text="Add credit to your account", command=deposit_page, bg="#cc716a").place(x=2, y=360)
     else:
         panel = Label(window,width= 540, height= 500)
         panel.place(x=0, y= 130)
@@ -1204,6 +1244,7 @@ def mainpage():
     Label(window, text=f"{dumpling['team1']}", font=("Arial", 10)).place(x=280, y=510)
     Label(window, text=f"{dumpling['team2']}", font=("Arial", 10)).place(x=400, y=528)
     Button(window, text="About FRIO MX", command=about_page, bg="#50a82a").place(x=445, y=360)
+    Button(window, text="Add credit to your account", command=deposit_page, bg="#cc716a").place(x=2, y=360)
 
 def check_create_acc():
     """Double check if all the user details are valid and doesn't overlap other users information"""
@@ -1325,6 +1366,8 @@ if debug:
 else:
     gui()
 
+dumpling = login_info["logins"][log]
+dumpling["money"] = money
 
 with open(path + r"\src\fut.json","w") as file:
     json.dump(statsfut, file)
