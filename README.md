@@ -22,4 +22,4 @@ $ python3 -m pip install -r requirements.txt
 ```
 
 ## Contributions
-Note that this program is in early development, if you would like to see a feature added, feel free to submit an issue or a pull request.
+If you would like to see a feature added, feel free to submit an issue or a pull request.
