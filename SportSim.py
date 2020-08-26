@@ -567,18 +567,20 @@ for i in soccer:
         ind1 = soccer.index(i)
         ind2 = int(soccer.index(i))+1
         if soccer[ind1] == soccer[ind2]:
-            soccer.remove(soccer[ind1])
+            soccer.pop(ind1)
+            soccer.pop(ind1)
         fut_matches.append(partido_fut(soccer[ind1], soccer[ind2])[0])
-        finalizar_ciclo_fut(partidos_jugados)
+        finalizar_ciclo_fut(fut_matches)
 bask_matches = []
 for i in basket:
     if basket.index(i) % 2 == 0:
         ind1 = basket.index(i)
         ind2 = int(basket.index(i))+1
         if basket[ind1] == basket[ind2]:
-            basket.remove(basket[ind1])
+            basket.pop(ind1)
+            basket.pop(ind1)
         bask_matches.append(partido_basq(basket[ind1], basket[ind2])[0])
-        finalizar_ciclo_fut(partidos_jugados)
+        finalizar_ciclo_basq(bask_matches)
 fini = False
 
 def about_page():
@@ -786,58 +788,58 @@ def bet_results():
             if bets[conta+1]["full"]:
                 conta += 1
                 dumpling = bets[conta]["full"]
-                Button(window, text="Next bet", command=bet_results).place(x=380, y=100)
+                Button(window, text="Next bet", command=bet_results).place(x=400, y=100)
         except IndexError:
             conta = 0
             dumpling = bets[conta]["full"]
         Label(window, text=f"{dumpling['team1']} VS {dumpling['team2']}", font=("Arial", 12)).place(x=0, y=0)
         if dumpling["team1"] == bets[conta]["team"] and bets[conta]["sport"] == "soccer":
             if dumpling["score1"] > dumpling["score2"]:
-                Label(window, text="Your team won this match").place(x=200, y=100)
-                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=180, y=120)
+                Label(window, text="Your team won this match", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}", font=("Arial", 14)).place(x=180, y=140)
                 money += bets[conta]['monto']*2
             elif dumpling["score1"] < dumpling["score2"]:
-                Label(window, text="Your team lost this match").place(x=200, y=100)
-                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=180, y=120)
+                Label(window, text="Your team lost this match", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"You lost your ${bets[conta]['monto']} bet", font=("Arial", 14)).place(x=180, y=140)
             else:
-                Label(window, text="The match ended tied").place(x=200, y=100)
-                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=180, y=120)
+                Label(window, text="The match ended tied", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back", font=("Arial", 14)).place(x=180, y=140)
                 money += bets[conta]['monto']
         elif dumpling["team2"] == bets[conta]["team"] and bets[conta]["sport"] == "soccer":
             if dumpling["score1"] < dumpling["score2"]:
-                Label(window, text="Your team won this match").place(x=200, y=100)
-                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=180, y=120)
+                Label(window, text="Your team won this match", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}", font=("Arial", 14)).place(x=180, y=140)
                 money += bets[conta]['monto']*2
             elif dumpling["score1"] > dumpling["score2"]:
-                Label(window, text="Your team lost this match").place(x=200, y=100)
-                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=180, y=120)
+                Label(window, text="Your team lost this match", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"You lost your ${bets[conta]['monto']} bet", font=("Arial", 14)).place(x=180, y=140)
             else:
-                Label(window, text="The match ended tied").place(x=200, y=100)
-                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=180, y=120)
+                Label(window, text="The match ended tied", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back", font=("Arial", 14)).place(x=180, y=140)
                 money += bets[conta]['monto']
         elif dumpling["team1"] == bets[conta]["team"] and bets[conta]["sport"] == "basketball":
             if dumpling["score1"] > dumpling["score2"]:
-                Label(window, text="Your team won this match").place(x=200, y=100)
-                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=180, y=120)
+                Label(window, text="Your team won this match", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}", font=("Arial", 14)).place(x=180, y=140)
                 money += bets[conta]['monto']*2
             elif dumpling["score1"] < dumpling["score2"]:
-                Label(window, text="Your team lost this match").place(x=200, y=100)
-                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=180, y=120)
+                Label(window, text="Your team lost this match", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"You lost your ${bets[conta]['monto']} bet", font=("Arial", 14)).place(x=180, y=140)
             else:
-                Label(window, text="The match ended tied").place(x=200, y=100)
-                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=180, y=120)
+                Label(window, text="The match ended tied", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back", font=("Arial", 14)).place(x=180, y=140)
                 money += bets[conta]['monto']
         elif dumpling["team2"] == bets[conta]["team"] and bets[conta]["sport"] == "basketball":
             if dumpling["score1"] < dumpling["score2"]:
-                Label(window, text="Your team won this match").place(x=200, y=100)
-                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}").place(x=180, y=120)
+                Label(window, text="Your team won this match", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"You got awarded ${bets[conta]['monto']*2}", font=("Arial", 14)).place(x=180, y=140)
                 money += bets[conta]['monto']*2
             elif dumpling["score1"] > dumpling["score2"]:
-                Label(window, text="Your team lost this match").place(x=200, y=100)
-                Label(window, text=f"You lost your ${bets[conta]['monto']} bet").place(x=180, y=120)
+                Label(window, text="Your team lost this match", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"You lost your ${bets[conta]['monto']} bet", font=("Arial", 14)).place(x=180, y=140)
             else:
-                Label(window, text="The match ended tied").place(x=200, y=100)
-                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back").place(x=180, y=120)
+                Label(window, text="The match ended tied", font=("Arial", 14)).place(x=200, y=100)
+                Label(window, text=f"Your bet of ${bets[conta]['monto']} was given back", font=("Arial", 14)).place(x=180, y=140)
                 money += bets[conta]['monto']
         else:
             Label(window, text="Internal error", font=("Arial", 12)).place(x=0, y=0)
