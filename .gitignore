@@ -3,3 +3,8 @@ src/__pycache__/*
 
 #VS Code
 .vscode/*
+
+#Build
+dist/*
+build/*
+*.spec
