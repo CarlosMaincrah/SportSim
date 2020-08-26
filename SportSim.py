@@ -1286,7 +1286,7 @@ def check_create_acc():
         gui_email_verif()
 
 def check_login():
-    """Checks if login credentials are valid -not working"""
+    """Checks if login credentials are valid"""
     global money, user, log, username, password
     user = username.get()
     passw = password.get()
@@ -1356,6 +1356,7 @@ def gui():
     window.geometry("540x620")
     window.title("FRIO MX")
     window.resizable(0, 0)
+    window.iconbitmap(path + r"\media\logo.ico")
     Button(window, text="Login", bg="#4ea9bf", width=13, command=gui_login).place(x=342, y=0)
     Button(window, text="Create an account", bg="#50a82a", command=gui_create_acc).place(x=433, y=0)
     Label(window, text="Welcome to FRIO MX", font=("Arial", 32)).place(x=35, y=40)
