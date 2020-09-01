@@ -797,7 +797,7 @@ def bet_results():
             if dumpling["score1"] > dumpling["score2"]:
                 Label(window, text="Your team won this match", font=("Arial", 14)).place(x=200, y=100)
                 Label(window, text=f"You got awarded ${bets[conta]['monto']*2}", font=("Arial", 14)).place(x=180, y=140)
-                money += bets[conta]['monto']*2
+                money += bets[conta]['monto'] * -(dumpling["stats2"][2] - dumpling["stats1"][2])
             elif dumpling["score1"] < dumpling["score2"]:
                 Label(window, text="Your team lost this match", font=("Arial", 14)).place(x=200, y=100)
                 Label(window, text=f"You lost your ${bets[conta]['monto']} bet", font=("Arial", 14)).place(x=180, y=140)
@@ -809,7 +809,7 @@ def bet_results():
             if dumpling["score1"] < dumpling["score2"]:
                 Label(window, text="Your team won this match", font=("Arial", 14)).place(x=200, y=100)
                 Label(window, text=f"You got awarded ${bets[conta]['monto']*2}", font=("Arial", 14)).place(x=180, y=140)
-                money += bets[conta]['monto']*2
+                money += bets[conta]['monto'] * -(dumpling["stats1"][2] - dumpling["stats2"][2])
             elif dumpling["score1"] > dumpling["score2"]:
                 Label(window, text="Your team lost this match", font=("Arial", 14)).place(x=200, y=100)
                 Label(window, text=f"You lost your ${bets[conta]['monto']} bet", font=("Arial", 14)).place(x=180, y=140)
@@ -821,7 +821,7 @@ def bet_results():
             if dumpling["score1"] > dumpling["score2"]:
                 Label(window, text="Your team won this match", font=("Arial", 14)).place(x=200, y=100)
                 Label(window, text=f"You got awarded ${bets[conta]['monto']*2}", font=("Arial", 14)).place(x=180, y=140)
-                money += bets[conta]['monto']*2
+                money += bets[conta]['monto'] * - (dumpling["stats2"][2] - dumpling["stats1"][2])
             elif dumpling["score1"] < dumpling["score2"]:
                 Label(window, text="Your team lost this match", font=("Arial", 14)).place(x=200, y=100)
                 Label(window, text=f"You lost your ${bets[conta]['monto']} bet", font=("Arial", 14)).place(x=180, y=140)
@@ -833,7 +833,7 @@ def bet_results():
             if dumpling["score1"] < dumpling["score2"]:
                 Label(window, text="Your team won this match", font=("Arial", 14)).place(x=200, y=100)
                 Label(window, text=f"You got awarded ${bets[conta]['monto']*2}", font=("Arial", 14)).place(x=180, y=140)
-                money += bets[conta]['monto']*2
+                money += bets[conta]['monto'] * -(dumpling["stats1"][2] - dumpling["stats2"][2])
             elif dumpling["score1"] > dumpling["score2"]:
                 Label(window, text="Your team lost this match", font=("Arial", 14)).place(x=200, y=100)
                 Label(window, text=f"You lost your ${bets[conta]['monto']} bet", font=("Arial", 14)).place(x=180, y=140)
