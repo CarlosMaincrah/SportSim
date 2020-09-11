@@ -1,4 +1,6 @@
 ## FRIO MX
+By Carlos Rodríguez (Pisich)
+
 A sports betting simulator that depends on teams stats to emulate scores.
 
 It has a fully functional betting system, where the user has to create an account and deposit some money to start betting. The user selects the matches they want to bet in and when the matches end the final score and the result of their bets will be shown to the user. If they won their bet, depends on how high the reputation of the team was the user will get their initial bet multiplied by. The higher the reputation of the team, the less the user will profit from that bet and the lower the reputation of the team, the more the user will profit. (Higher risk = Higher reward)
