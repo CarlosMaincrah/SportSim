@@ -12,10 +12,10 @@ At first, this was a school project, but then I decided to continue developing i
 
 ```bash
 # Clone the repo
-$ git clone https://github.com/pisich/frio-mx
+$ git clone https://github.com/pisich/FRIO-MX
 
-# Change the working directory to frio-mx
-$ cd frio-mx
+# Change the working directory to FRIO-MX
+$ cd FRIO-MX
 
 # Install python3 and python3-pip if they are not installed
 
