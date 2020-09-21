@@ -8,10 +8,10 @@ import src.email_credentials as ec
 path = os.path.dirname(os.path.abspath(__file__))
 
 #"EQUIPO": [ATACK, DEFENSE, REPUTATION]
-with open(path + r"\src\fut.json","r") as file:
-    statsfut = json.load(file)
-with open(path + r"\src\basq.json", "r") as archivo:
-    statsbasq = json.load(archivo)
+with open(path + r"\src\fut.json","r") as sfut:
+    statsfut = json.load(sfut)
+with open(path + r"\src\basq.json", "r") as sbask:
+    statsbasq = json.load(sbask)
 with open(path + r"\src\logins.json","r") as login_data:
     login_info = json.load(login_data)
 
