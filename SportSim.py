@@ -25,7 +25,7 @@ log = 0
 bets = []
 code = ""
 
-def correo_verif(email):
+def confirm_email(email):
     """Function to send a verification email when creating an account"""
     global code, user
     try:
@@ -226,7 +226,7 @@ def login():
                 if f != g:
                     print("Error, passwords don't match")
             dumpling.append({"user": e, "password": f, "perms": 0, "money": 0, "correo": r})
-            correo_verif(dumpling[-1]["correo"])
+            confirm_email(dumpling[-1]["correo"])
             print("We sent you a verification email")
             le = input("Enter the code you received: ")
             conta = 0
@@ -887,7 +887,7 @@ def fin_mainpage():
     Button(window, text="Add credit to your account", command=deposit_page, bg="#cc716a").place(x=2, y=360)
 
 def fut_next():
-    """Funtion to show the next match in soccer matches"""
+    """Function to show the next match in soccer matches page"""
     global conta, fut_matches
     try:
         conta += 1
@@ -920,7 +920,7 @@ def fut_next():
         Button(window, text="Back", command=mainpage).place(x=0, y=285)
 
 def bask_next():
-    """Function to show the next match in basketball matches"""
+    """Function to show the next match in basketball matches page"""
     global conta, bask_matches
     try:
         conta += 1
@@ -971,7 +971,7 @@ def valid_bet_soccer_visitor():
         pass
 
 def valid_bet_basketball_local():
-    """Checks if the current bet is valid and if it is, is submitted"""
+    """Checks if the current bet is valid and if it is, the bet is submitted"""
     global money, money_bet
     if int(money_bet.get()) <= money:
         bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team1"], "sport": "basketball"})
@@ -980,7 +980,7 @@ def valid_bet_basketball_local():
         pass
 
 def valid_bet_basketball_visitor():
-    """Checks if the current bet is valid and if it is, is submitted"""
+    """Checks if the current bet is valid and if it is, the bet is submitted"""
     global money, money_bet
     if int(money_bet.get()) <= money:
         bets.append({"full": fut_matches[conta], "monto": int(money_bet.get()), "team": fut_matches[conta]["team2"], "sport": "basketball"})
@@ -1049,7 +1049,7 @@ def bask_visitor_bet():
     Button(window, text="Show results", command=fin_mainpage).place(x=454, y=80)
 
 def fut_bet():
-    """Page where the user will enter their bet details for a specific match"""
+    """Page where the user will enter their bet details for a specific soccer match"""
     global conta, fut_matches, money
     dumpling = fut_matches[conta]
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
@@ -1070,7 +1070,7 @@ def fut_bet():
         Label(window, text="More profitable!", font=("Arial", 12)).place(x=20, y=160)
 
 def bask_bet():
-    """Page where the user will enter their bet details for a specific match"""
+    """Page where the user will enter their bet details for a specific basketball match"""
     global conta, bask_matches, money
     dumpling = bask_matches[conta]
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
@@ -1091,7 +1091,7 @@ def bask_bet():
         Label(window, text="More profitable!", font=("Arial", 12)).place(x=20, y=160)
 
 def bask_page():
-    """Mainpage for betting in basketball matches"""
+    """Mainpage for browsing basketball matches"""
     global basket, conta, bask_matches
     conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
@@ -1110,7 +1110,7 @@ def bask_page():
 
 
 def fut_page():
-    """Mainpage for betting in football matches"""
+    """Mainpage for browsing football matches"""
     global soccer, conta, fut_matches
     conta = 0
     Canvas(window, width= 1000, height= 1000).place(x=0, y=0)
