@@ -7,7 +7,7 @@ import src.email_credentials as ec
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-#"EQUIPO": [ATACK, DEFENSE, REPUTATION]
+#"TEAM": [ATACK, DEFENSE, REPUTATION]
 with open(path + r"\src\fut.json","r") as sfut:
     statsfut = json.load(sfut)
 with open(path + r"\src\basq.json", "r") as sbask:
@@ -46,7 +46,7 @@ def correo_verif(email):
         print("There was an error when sending the verification email, check your details and try again")
 
 def deposit():
-    """Function to add more money to your account"""
+    """Add more money to your account"""
     print(f"You currently have ${money} credit, you have the option to buy 4 packages.\n1- $1000 credit\n2- $5000 credit\n3- $10000 credit\n4- $50000 credit")
     e = input("Which package do you want to buy? ")
     while e != "q":
@@ -74,7 +74,7 @@ def deposit():
             return True
 
 def results():
-    """Function that shows final results of the matches and pays the won bets"""
+    """Function that shows final results of the matches and pays the bets"""
     for i in sport_day:
         print(f"Match #{i['numpartido']}:\n{i['team1']} vs {i['team2']}: {i['score1']}-{i['score2']}")
 
