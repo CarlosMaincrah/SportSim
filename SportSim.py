@@ -35,9 +35,18 @@ else:
     cursor.execute("SELECT * FROM soccer_teams;")
     soc_teams = cursor.fetchall()
 
-    #Update our local data
-    #for i in bask_teams:
-    #for i in soc_teams:
+    #Update our basketball local data
+    statsbasq = {}
+    for i in bask_teams:
+        statsbasq.update({i[1]: [i[2], i[3], i[4]]})
+    statsbasq = {"equipos": [statsbasq]}
+
+    #Update our soccer local data
+    statsfut = {}
+    for i in soc_teams:
+        statsfut.update({i[1]: [i[2], i[3], i[4]]})
+    statsfut = {"equipos": [statsfut]}
+
 
 
 debug = False #Set to True if debugging
