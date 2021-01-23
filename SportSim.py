@@ -7,13 +7,27 @@ import src.email_credentials as ec
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-#"TEAM": [ATACK, DEFENSE, REPUTATION]
-with open(path + r"\src\fut.json","r") as sfut:
-    statsfut = json.load(sfut)
-with open(path + r"\src\basq.json", "r") as sbask:
-    statsbasq = json.load(sbask)
-with open(path + r"\src\logins.json","r") as login_data:
-    login_info = json.load(login_data)
+
+#Check if the program can connect to the database
+#If not, it uses the local files to not lose usability
+try:
+    db = mysql.connector.connect(
+            host="45.79.99.140",
+            user="root",
+            passwd="superuser",
+            database="FRIOMX"
+        )
+except:
+    #"TEAM": [ATACK, DEFENSE, REPUTATION]
+    with open(path + r"\src\fut.json","r") as sfut:
+        statsfut = json.load(sfut)
+    with open(path + r"\src\basq.json", "r") as sbask:
+        statsbasq = json.load(sbask)
+    with open(path + r"\src\logins.json","r") as login_data:
+        login_info = json.load(login_data)
+else:
+    cursor = db.cursor()
+
 
 debug = False #Set to True if debugging
 
