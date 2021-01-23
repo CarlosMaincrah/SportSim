@@ -9,3 +9,6 @@ dist/*
 build/*
 *.spec
 *.exe
+
+#Replit
+.replit
