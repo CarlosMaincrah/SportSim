@@ -4,6 +4,7 @@ import time
 import os
 from smtplib import SMTP
 import src.email_credentials as ec
+import mysql.connector
 
 path = os.path.dirname(os.path.abspath(__file__))
 
