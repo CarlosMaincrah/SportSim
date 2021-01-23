@@ -14,7 +14,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 try:
     db = mysql.connector.connect(
             host="45.79.99.140",
-            user="cold",
+            user="guest",
             passwd="frio_mx_guest",
             database="FRIOMX"
         )
@@ -28,6 +28,16 @@ except:
         login_info = json.load(login_data)
 else:
     cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    users = cursor.fetchall()
+    cursor.execute("SELECT * FROM bask_teams;")
+    bask_teams = cursor.fetchall()
+    cursor.execute("SELECT * FROM soccer_teams;")
+    soc_teams = cursor.fetchall()
+
+    #Update our local data
+    #for i in bask_teams:
+    #for i in soc_teams:
 
 
 debug = False #Set to True if debugging
