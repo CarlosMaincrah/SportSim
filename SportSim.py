@@ -9,8 +9,8 @@ import mysql.connector
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-#Check if the program can connect to the database
-#If not, it uses the local files to keep usability
+#Check if the program can connect to the database to update team stats
+#If not, it uses the last time connection data in local files
 try:
     db = mysql.connector.connect(
             host="45.79.99.140",
