@@ -10,12 +10,12 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 
 #Check if the program can connect to the database
-#If not, it uses the local files to not lose usability
+#If not, it uses the local files to keep usability
 try:
     db = mysql.connector.connect(
             host="45.79.99.140",
-            user="root",
-            passwd="superuser",
+            user="cold",
+            passwd="frio_mx_guest",
             database="FRIOMX"
         )
 except:
