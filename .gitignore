@@ -10,5 +10,5 @@ build/*
 *.spec
 *.exe
 
-#Replit
+#Repl it
 .replit
