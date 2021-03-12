@@ -8,13 +8,46 @@ import mysql.connector
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-#"TEAM": [ATACK, DEFENSE, REPUTATION]
-with open(path + r"\src\fut.json","r") as sfut:
-    statsfut = json.load(sfut)
-with open(path + r"\src\basq.json", "r") as sbask:
-    statsbasq = json.load(sbask)
-with open(path + r"\src\logins.json","r") as login_data:
-    login_info = json.load(login_data)
+
+#Check if the program can connect to the database to update team stats
+#If not, it uses the last time connection data in local files
+try:
+    db = mysql.connector.connect(
+            host="45.79.99.140",
+            user="guest",
+            passwd="frio_mx_guest",
+            database="FRIOMX"
+        )
+except:
+    #"TEAM": [ATACK, DEFENSE, REPUTATION]
+    with open(path + r"\src\fut.json","r") as sfut:
+        statsfut = json.load(sfut)
+    with open(path + r"\src\basq.json", "r") as sbask:
+        statsbasq = json.load(sbask)
+    with open(path + r"\src\logins.json","r") as login_data:
+        login_info = json.load(login_data)
+else:
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    users = cursor.fetchall()
+    cursor.execute("SELECT * FROM bask_teams;")
+    bask_teams = cursor.fetchall()
+    cursor.execute("SELECT * FROM soccer_teams;")
+    soc_teams = cursor.fetchall()
+
+    #Update our basketball local data
+    statsbasq = {}
+    for i in bask_teams:
+        statsbasq.update({i[1]: [i[2], i[3], i[4]]})
+    statsbasq = {"equipos": [statsbasq]}
+
+    #Update our soccer local data
+    statsfut = {}
+    for i in soc_teams:
+        statsfut.update({i[1]: [i[2], i[3], i[4]]})
+    statsfut = {"equipos": [statsfut]}
+
+
 
 debug = False #Set to True if debugging
 
