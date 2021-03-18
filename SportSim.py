@@ -5,16 +5,24 @@ import os
 from smtplib import SMTP
 import src.email_credentials as ec
 import mysql.connector
+from dotenv import load_dotenv
 
 path = os.path.dirname(os.path.abspath(__file__))
+
+#Load in all of the env variables
+env_path = path + "\.env"
+load_dotenv(dotenv_path=env_path)
+debug = os.getenv("DEBUG")
+db_ip = os.getenv("SERVER_IP")
+db_user = os.getenv("DB_USER")
 
 
 #Check if the program can connect to the database to update team stats
 #If not, it uses the last time connection data in local files
 try:
     db = mysql.connector.connect(
-            host="45.79.99.140",
-            user="guest",
+            host=db_ip,
+            user=db_user,
             passwd="frio_mx_guest",
             database="FRIOMX"
         )
@@ -48,8 +56,6 @@ else:
     statsfut = {"equipos": [statsfut]}
 
 
-
-debug = False #Set to True if debugging
 
 sport_day = []
 user = ""
