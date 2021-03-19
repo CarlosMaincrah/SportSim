@@ -35,6 +35,7 @@ except:
     with open(path + r"\src\logins.json","r") as login_data:
         login_info = json.load(login_data)
 else:
+    #Retrieve all database data
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
     users = cursor.fetchall()
@@ -56,7 +57,7 @@ else:
     statsfut = {"equipos": [statsfut]}
 
 
-
+# Global variables
 sport_day = []
 user = ""
 money = 0
@@ -66,12 +67,13 @@ bets = []
 code = ""
 
 def confirm_email(email):
-    """Function to send a verification email when creating an account"""
+    """Sends a verification email when creating an account"""
     global code, user
     try:
         for i in range(6):
             piece_of_code = str(random.randint(0,10))
             code = code + piece_of_code
+
         message = f"""
             Subject: Verification email
             Hey {user}!\nWelcome to FRIO MX, to start using our betting service you must verify your email.
@@ -577,7 +579,7 @@ def main():
     else:
         print("Access denied")
 
-#END OF DEBUGGING
+#END OF BACKEND
 #START OF GUI
 import itertools
 from tkinter import *
@@ -1404,7 +1406,7 @@ def gui():
     next_img()
     window.mainloop()
 
-if debug:
+if debug == True:
     main()
 else:
     gui()
